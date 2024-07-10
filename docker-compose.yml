@@ -1,0 +1,14 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: bash -c "cd /frontend/react && yarn dev"
+    stdin_open: true
+    tty: true
