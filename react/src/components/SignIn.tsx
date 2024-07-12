@@ -5,6 +5,7 @@ import { signIn } from "../api/auth";
 import { AuthContext } from "../App";
 
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 export const SignIn = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
@@ -43,31 +44,29 @@ export const SignIn = () => {
   };
   return (
     <>
-      <p>サインインページです</p>
+      <h1>サインインページです</h1>
       <form>
         <div>
-          <label htmlFor="email">メールアドレス</label>
-          <input
+          <TextField
             type="email"
             id="email"
-            name="email"
+            label="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">パスワード</label>
-          <input
+          <TextField
             type="password"
             id="password"
-            name="password"
+            label="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" onClick={(e) => handleSignInSubmit(e)}>
-          Submit
-        </button>
+        <Button type="submit" onClick={(e) => handleSignInSubmit(e)}>
+          Sign in
+        </Button>
       </form>
       <Link to="/signup">サインアップへ</Link>
     </>

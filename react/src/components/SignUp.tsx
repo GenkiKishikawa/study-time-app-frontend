@@ -41,31 +41,28 @@ export const SignUp = () => {
       <h1>サインアップページです</h1>
       <form>
         <div>
-          <label htmlFor="email">メールアドレス</label>
-          <input
+          <TextField
             type="email"
             id="email"
-            name="email"
+            label="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">パスワード</label>
-          <input
+          <TextField
             type="password"
             id="password"
-            name="password"
+            label="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password_confirmation">パスワード確認</label>
-          <input
+          <TextField
             type="password"
             id="password_confirmation"
-            name="password_confirmation"
+            label="password_confirmation"
             value={passwordConfirmation}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
           />
@@ -78,9 +75,9 @@ export const SignUp = () => {
             value={confirmSuccessUrl}
           />
         </div>
-        <button type="submit" onClick={(e) => handleSignUpSubmit(e)}>
-          Submit
-        </button>
+        <Button type="submit" onClick={(e) => handleSignUpSubmit(e)}>
+          Sign up
+        </Button>
       </form>
       <Link to="/signin">サインインへ</Link>
     </>

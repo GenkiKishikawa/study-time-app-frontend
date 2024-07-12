@@ -9,6 +9,7 @@
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "MS-CEINTL.vscode-language-pack-ja",
+        "ms-azuretools.vscode-docker"
       ]
     }
   },
