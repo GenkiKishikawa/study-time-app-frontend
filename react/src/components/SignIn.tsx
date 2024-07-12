@@ -3,15 +3,23 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth";
 import { AuthContext } from "../App";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import SendIcon from '@mui/icons-material/Send';
+import { backdropClasses, styled } from "@mui/material";
+
+const SendButton = styled(Button)({
+  color: 'white',
+  backgroundColor: '#434343',
+  '&:hover': {
+    backgroundColor: '#333333',
+  }
+});
 
 export const SignIn = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const generateParams = () => {
@@ -42,33 +50,30 @@ export const SignIn = () => {
       console.log(e);
     }
   };
+
   return (
-    <>
-      <h1>サインインページです</h1>
-      <form>
-        <div>
-          <TextField
-            type="email"
-            id="email"
-            label="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            type="password"
-            id="password"
-            label="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <Button type="submit" onClick={(e) => handleSignInSubmit(e)}>
-          Sign in
-        </Button>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <form onSubmit={handleSignInSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '320px' }}>
+        <h1>ログイン</h1>
+        <TextField
+          type="email"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+        />
+        <TextField
+          type="password"
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+        />
+        <SendButton type="submit" variant="contained" endIcon={<SendIcon />}>
+          続ける
+        </SendButton>
+        <Link to="/signup">アカウントの作成</Link>
       </form>
-      <Link to="/signup">サインアップへ</Link>
-    </>
+    </div>
   );
 };

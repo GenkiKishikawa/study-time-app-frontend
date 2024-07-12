@@ -44,7 +44,7 @@ export const SignUp = () => {
           <TextField
             type="email"
             id="email"
-            label="email"
+            label="メールアドレス"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -53,7 +53,7 @@ export const SignUp = () => {
           <TextField
             type="password"
             id="password"
-            label="password"
+            label="パスワード"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -76,7 +76,7 @@ export const SignUp = () => {
           />
         </div>
         <Button type="submit" onClick={(e) => handleSignUpSubmit(e)}>
-          Sign up
+          続ける
         </Button>
       </form>
       <Link to="/signin">サインインへ</Link>
