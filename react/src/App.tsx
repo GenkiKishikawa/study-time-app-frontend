@@ -1,35 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { getCurrentUser } from "./api/auth";
+import { Main } from "./components/Main";
+import { SignIn } from "./components/SignIn";
+import { SignUp } from "./components/SignUp";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface AuthContextType {
+  loading: boolean;
+  isSignedIn: boolean;
+  currentUser: User | null;
+  setLoading: (loading: boolean) => void;
+  setIsSignedIn: (isSignedIn: boolean) => void;
+  setCurrentUser: (user: User | null) => void;
 }
 
-export default App
+interface User {
+  // ユーザー情報に関する具体的なプロパティを定義
+  id: number;
+  name: string;
+}
+
+const defaultAuthValue: AuthContextType = {
+  loading: true,
+  isSignedIn: false,
+  currentUser: null,
+  setLoading: () => { },
+  setIsSignedIn: () => { },
+  setCurrentUser: () => { }
+};
+
+export const AuthContext = createContext<AuthContextType>(defaultAuthValue);
+
+function App() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getCurrentUser();
+        if (res?.data.isLogin) {
+          setIsSignedIn(true);
+          setCurrentUser(res.data.data);
+        } else {
+          console.log("no current user");
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const PrivateRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
+    if (loading) return <div>Loading...</div>;
+    if (!isSignedIn) return <Navigate to="/signin" replace />;
+    return <>{children}</>;
+  };
+
+  return (
+    <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
+  );
+}
+
+export default App;
