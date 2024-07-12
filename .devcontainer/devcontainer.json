@@ -3,4 +3,13 @@
   "service": "frontend",
   "workspaceFolder": "/frontend",
   "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "MS-CEINTL.vscode-language-pack-ja",
+      ]
+    }
+  },
 }
