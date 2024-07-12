@@ -7,6 +7,7 @@ services:
       - "3001:3001"
     volumes:
       - .:/frontend
+      - ~/.ssh/id_rsa:/home/node/.ssh/id_rsa
     environment:
       - CHOKIDAR_USEPOLLING=true
     command: bash -c "cd /frontend/react && yarn install && yarn dev"
