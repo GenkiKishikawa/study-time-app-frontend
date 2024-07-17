@@ -6,7 +6,7 @@ import { AuthContext } from "../App";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
-import { backdropClasses, styled } from "@mui/material";
+import { styled } from "@mui/material";
 
 const SendButton = styled(Button)({
   color: 'white',
@@ -30,7 +30,7 @@ export const SignIn = () => {
     return signInParams;
   };
 
-  const handleSignInSubmit = async (e) => {
+  const handleSignInSubmit = async (e: any) => {
     e.preventDefault();
     const params = generateParams();
 
