@@ -1,15 +1,12 @@
-import Cookies from "js-cookie";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signUp } from "../api/auth";
-import { AuthContext } from "../App";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import SendIcon from '@mui/icons-material/Send';
 
 export const SignUp = () => {
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -25,7 +22,7 @@ export const SignUp = () => {
     return signUpParams;
   };
 
-  const handleSignUpSubmit = async (e) => {
+  const handleSignUpSubmit = async (e: any) => {
     e.preventDefault();
     const params = generateParams();
     try {
@@ -37,9 +34,9 @@ export const SignUp = () => {
     }
   };
   return (
-    <>
-      <h1>サインアップページです</h1>
-      <form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '320px' }}>
+        <h1>アカウント作成</h1>
         <div>
           <TextField
             type="email"
@@ -75,11 +72,11 @@ export const SignUp = () => {
             value={confirmSuccessUrl}
           />
         </div>
-        <Button type="submit" onClick={(e) => handleSignUpSubmit(e)}>
+        <Button onClick={(e) => handleSignUpSubmit(e)} type="submit" variant="contained" endIcon={<SendIcon />}>
           続ける
         </Button>
+        <Link to="/signin">ログインへ</Link>
       </form>
-      <Link to="/signin">サインインへ</Link>
-    </>
+    </div>
   );
 };

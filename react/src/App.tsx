@@ -1,9 +1,11 @@
+import "./App.css";
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { getCurrentUser } from "./api/auth";
 import { Main } from "./components/Main";
 import { SignIn } from "./components/SignIn";
 import { SignUp } from "./components/SignUp";
+import { Timer } from "./components/Timer";
 
 interface AuthContextType {
   loading: boolean;
@@ -69,6 +71,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>} />
+          <Route path="/timer" element={<PrivateRoute><Timer /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
