@@ -1,7 +1,7 @@
 import api from './api';
 
-export const getRecords = () => {
-  return api.get('/records');
+export const getRecords = (page: number) => {
+  return api.get(`/records?page=${page}`);
 };
 
 export const postRecord = (params: any) => {
