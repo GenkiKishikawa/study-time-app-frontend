@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { postRecord } from "../api/request";
 
-export const Stopwatch = () => {
+export const Stopwatch = (mdValue) => {
   const {
     totalSeconds,
     seconds,
@@ -44,11 +44,10 @@ export const Stopwatch = () => {
       endMonth: new Date().getMonth() + 1,
       endDay: new Date().getDate(),
       endTime: new Date().toLocaleTimeString(),
+      memo: mdValue['mdValue'].toString(),
     };
 
-    const res = await postRecord(params);
-
-    console.log(res);
+    await postRecord(params);
 
     navigate('/');
   }
