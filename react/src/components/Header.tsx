@@ -1,10 +1,29 @@
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { useState, useRef, useEffect } from 'react';
+import { AppBar, Box, Button, IconButton, Toolbar, Menu, MenuItem } from '@mui/material';
+
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { signOut } from '../api/auth';
+import { getMonthlyTime } from '../api/request';
 
-export const Header = () => {
+const Header = ({ headerHeight, activeComponent }) => {
+  const [open, setOpen] = useState(false);
+  const [monthlyTime, setMonthlyTime] = useState(0);
+  const anchorRef = useRef(null);
+  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+    setOpen(!open);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    getMonthlyTime().then(res => {
+      setMonthlyTime(res.data);
+    }).catch(err => console.error('Failed to get monthly time:', err));
+  }, [activeComponent]);
 
   const navigate = useNavigate();
   const handleLogout = async (e: any) => {
@@ -14,19 +33,41 @@ export const Header = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar
+      elevation={0}
+      position="fixed"
+      sx={{
+        height: headerHeight,
+        borderBottom: 1,
+        backgroundColor: '#f5f5f5',
+        borderColor: '#a9a9a9',
+      }}
+    >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+        <Box sx={{ backgroundColor: "black", width: 125, height: 64 }} />
+        <div style={{ margin: 24, color: "#434343", display: "flex", alignItems: "center" }}>
+          <AccessTimeIcon />
+          <text style={{ margin: 0 }}>{`　${(monthlyTime / 3600).toFixed(1)}h　Monthly time`}</text>
+        </div>
         <Box sx={{ flexGrow: 1 }} />
-        <Button color="inherit" onClick={handleLogout}>Logout</Button>
+        <IconButton
+          onClick={handleToggle}
+          ref={anchorRef}
+        >
+          <AccountCircleIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorRef.current}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   )
 }
+
+export default Header;
