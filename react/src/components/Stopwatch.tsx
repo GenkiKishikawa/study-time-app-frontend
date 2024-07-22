@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
-import { useNavigate } from "react-router-dom";
 
 import { postRecord } from "../api/request";
 
-export const Stopwatch = (mdValue) => {
+const Stopwatch = ({ mdValue, onComponentSwitch }) => {
   const {
     totalSeconds,
     seconds,
     minutes,
     hours,
     days,
-    isRunning,
     start,
     pause,
     reset,
@@ -21,7 +19,7 @@ export const Stopwatch = (mdValue) => {
 
   const handleStart = () => {
     if (!startTimeValue) {
-      setStartTimeValue(new Date().toString());
+      setStartTimeValue(new Date().toLocaleString());
     }
     start();
   }
@@ -31,11 +29,9 @@ export const Stopwatch = (mdValue) => {
     setStartTimeValue("");
   }
 
-  const navigate = useNavigate();
-
   const handleSave = async () => {
     const params = {
-      studyTime: `${hours}:${minutes}:${seconds}`,
+      studyTime: totalSeconds,
       startYear: new Date(startTimeValue).getFullYear(),
       startMonth: new Date(startTimeValue).getMonth() + 1,
       startDay: new Date(startTimeValue).getDate(),
@@ -44,25 +40,26 @@ export const Stopwatch = (mdValue) => {
       endMonth: new Date().getMonth() + 1,
       endDay: new Date().getDate(),
       endTime: new Date().toLocaleTimeString(),
-      memo: mdValue['mdValue'].toString(),
+      memo: mdValue,
     };
 
     await postRecord(params);
 
-    navigate('/');
+    onComponentSwitch('recordsList');
   }
 
   return (
-    <div>
-      <h1>Timer</h1>
-      <a>start: {startTimeValue}</a>
-      <div style={{ fontSize: '100px' }}>
+    <div style={{ alignItems: "center", textAlign: "center" }}>
+      <div style={{ fontSize: '70px' }}>
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
       </div>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={pause}>Pause</button>
-      <button onClick={handleReset}>Reset</button>
-      <button onClick={handleSave}>Save</button>
+      <p>開始時間: {startTimeValue}</p>
+      <button className="hoverEffect" onClick={handleStart}>Start</button>
+      <button className="hoverEffect" onClick={pause}>Stop</button>
+      <button className="hoverEffect" onClick={handleReset}>Reset</button>
+      <button className="hoverEffect" onClick={handleSave}>End</button>
     </div>
   )
 }
+
+export default Stopwatch;

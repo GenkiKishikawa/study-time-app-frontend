@@ -9,14 +9,14 @@ import SendIcon from '@mui/icons-material/Send';
 import { styled } from "@mui/material";
 
 const SendButton = styled(Button)({
-  color: 'white',
+  color: '#d9d9d9',
   backgroundColor: '#434343',
   '&:hover': {
     backgroundColor: '#333333',
   }
 });
 
-export const SignIn = () => {
+const SignIn = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +61,7 @@ export const SignIn = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
+          sx={{ margin: '5px' }}
         />
         <TextField
           type="password"
@@ -68,6 +69,7 @@ export const SignIn = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
+          sx={{ margin: '5px' }}
         />
         <SendButton type="submit" variant="contained" endIcon={<SendIcon />}>
           続ける
@@ -77,3 +79,5 @@ export const SignIn = () => {
     </div>
   );
 };
+
+export default SignIn;
