@@ -2,56 +2,48 @@ import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from
 import DvrIcon from '@mui/icons-material/Dvr';
 import WatchIcon from '@mui/icons-material/Watch';
 import TimelineIcon from '@mui/icons-material/Timeline';
-import { useNavigate } from 'react-router-dom'
 
-const drawerWidth = 150
-
-export const Sidebar = () => {
-
-  const navigate = useNavigate(); // ナビゲーション関数を初期化
-
-  // サイドバーのアイテムクリックに反応する関数
-  const handleNavigation = (path: any) => {
-    navigate(path); // ナビゲート関数を呼び出し
-  };
-
+const Sidebar = ({ onComponentSwitch, sidebarWidth }) => {
   return (
     <Drawer
       variant="permanent"
       sx={{
-        width: drawerWidth,
+        width: sidebarWidth,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
-          width: drawerWidth,
+          width: sidebarWidth,
           boxSizing: 'border-box',
-          zIndex: (theme) => theme.zIndex.modal + 1,
+          borderRight: 1,
+          backgroundColor: '#f5f5f5',
+          borderColor: '#a9a9a9',
         },
       }}
     >
       <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
-        <List >
-          <ListItem button onClick={() => handleNavigation('/')}>
-            <ListItemIcon>
+        <List>
+          <ListItem button onClick={() => onComponentSwitch('recordsList')} sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+            <ListItemIcon sx={{ minWidth: 0 }}>
               <DvrIcon />
             </ListItemIcon>
-            <ListItemText secondary="Time Reacords" />
-            <></>
+            <ListItemText primary="Time Records" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/timer')}>
-            <ListItemIcon>
+          <ListItem button onClick={() => onComponentSwitch('timer')} sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+            <ListItemIcon sx={{ minWidth: 0 }}>
               <WatchIcon />
             </ListItemIcon>
-            <ListItemText secondary="Timer" />
+            <ListItemText primary="Timer" />
           </ListItem>
-          <ListItem button>
-            <ListItemIcon>
+          <ListItem button sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+            <ListItemIcon sx={{ minWidth: 0 }}>
               <TimelineIcon />
             </ListItemIcon>
-            <ListItemText secondary="Stats" />
+            <ListItemText primary="Stats" />
           </ListItem>
         </List>
       </Box>
     </Drawer>
   )
 }
+
+export default Sidebar;
