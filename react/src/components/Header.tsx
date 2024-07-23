@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { AppBar, Box, Button, IconButton, Toolbar, Menu, MenuItem } from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar, Menu, MenuItem } from '@mui/material';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -20,7 +20,7 @@ const Header = ({ headerHeight, activeComponent }) => {
   };
 
   useEffect(() => {
-    getMonthlyTime().then(res => {
+    getMonthlyTime(new Date().getMonth() + 1).then(res => {
       setMonthlyTime(res.data);
     }).catch(err => console.error('Failed to get monthly time:', err));
   }, [activeComponent]);
