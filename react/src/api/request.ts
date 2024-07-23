@@ -1,21 +1,52 @@
 import api from './api';
+import Cookies from 'js-cookie';
 
 export const getRecords = (page: number) => {
-  return api.get(`/records?page=${page}`);
+  return api.get(`/records?page=${page}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
 };
 
 export const postRecord = (params: any) => {
-  return api.post('/records', params);
+  return api.post('/records', params, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
 };
 
 export const deleteRecord = (id: number) => {
-  return api.delete(`/records/${id}`);
+  return api.delete(`/records/${id}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
 }
 
-export const putRecord = (id: number, params: any) => {
-  return api.put(`/records/${id}`, params);
+export const putRecord = (recordId: number, params: any) => {
+  return api.put(`/records/${recordId}`, params, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
 }
 
-export const getMonthlyTime = () => {
-  return api.get('/monthly_time');
+export const getMonthlyTime = (month: any) => {
+  return api.get(`/monthly_time?month=${month}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
 }

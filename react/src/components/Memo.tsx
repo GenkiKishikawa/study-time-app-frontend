@@ -17,7 +17,7 @@ const Memo = (props) => {
   }
   if (props.IsShowMemo) {
     return (
-      <div id="overlay" onClick={closeMemo}>
+      <div className="overlay" onClick={closeMemo}>
         <div id="memo" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
           <MDEditor
             value={memo}

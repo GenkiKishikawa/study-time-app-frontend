@@ -7,9 +7,11 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { deleteRecord } from '../api/request';
 import Memo from './Memo';
+import EditForm from './EditForm';
 
 const Record = ({ record, records, setRecords }) => {
   const [isShowMemo, setIsShowMemo] = useState(false);
+  const [isShowEditForm, setIsShowEditForm] = useState(false);
 
   const handleDeleteRecord = async () => {
     try {
@@ -24,6 +26,10 @@ const Record = ({ record, records, setRecords }) => {
   const toggleMemoVisibility = () => {
     setIsShowMemo(true);
   };
+
+  const toggleEditFormVisibility = () => {
+    setIsShowEditForm(true);
+  }
 
   const displayTimeFormat = (record) => {
     if (record.startDay === record.endDay) {
@@ -43,7 +49,7 @@ const Record = ({ record, records, setRecords }) => {
             <IconButton onClick={toggleMemoVisibility}>
               <MenuBookIcon />
             </IconButton>
-            <IconButton aria-label="edit">
+            <IconButton aria-label="edit" onClick={toggleEditFormVisibility}>
               <EditIcon />
             </IconButton>
             <IconButton aria-label="delete" onClick={handleDeleteRecord}>
@@ -58,7 +64,8 @@ const Record = ({ record, records, setRecords }) => {
           style={{ paddingRight: 0 }}
         />
       </ListItem >
-      <Memo IsShowMemo={isShowMemo} setIsShowMemo={setIsShowMemo} memo={record.memo} recordId={record.id} />
+      {isShowEditForm && <EditForm IsShowEditForm={isShowEditForm} setIsShowEditForm={setIsShowEditForm} record={record} />}
+      {isShowMemo && <Memo IsShowMemo={isShowMemo} setIsShowMemo={setIsShowMemo} memo={record.memo} recordId={record.id} />}
     </>
   );
 };
