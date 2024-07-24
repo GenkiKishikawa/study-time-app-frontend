@@ -1,33 +1,44 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, MouseEvent } from 'react';
 import { AppBar, Box, IconButton, Toolbar, Menu, MenuItem } from '@mui/material';
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
 import { signOut } from '../api/auth';
 import { getMonthlyTime } from '../api/request';
 
-const Header = ({ headerHeight, activeComponent }) => {
+interface HeaderProps {
+  headerHeight: number;
+  activeComponent: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
   const [open, setOpen] = useState(false);
   const [monthlyTime, setMonthlyTime] = useState(0);
-  const anchorRef = useRef(null);
-  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-    setOpen(!open);
+  const anchorRef = useRef<HTMLButtonElement>(null);
+
+  const handleToggle = (event: MouseEvent<HTMLElement>) => {
+    setOpen((prevOpen) => !prevOpen);
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   useEffect(() => {
-    getMonthlyTime(new Date().getMonth() + 1).then(res => {
-      setMonthlyTime(res.data);
-    }).catch(err => console.error('Failed to get monthly time:', err));
+    const fetchMonthlyTime = async () => {
+      try {
+        const response = await getMonthlyTime(new Date().getMonth() + 1);
+        setMonthlyTime(response.data);
+      } catch (err) {
+        console.error('Failed to get monthly time:', err);
+      }
+    };
+    fetchMonthlyTime();
   }, [activeComponent]);
 
   const navigate = useNavigate();
-  const handleLogout = async (e: any) => {
-    e.preventDefault();
+
+  const handleLogout = async (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
     await signOut();
     navigate('/signin');
   };
@@ -45,10 +56,10 @@ const Header = ({ headerHeight, activeComponent }) => {
     >
       <Toolbar>
         <Box sx={{ backgroundColor: "black", width: 125, height: 64 }} />
-        <div style={{ margin: 24, color: "#434343", display: "flex", alignItems: "center" }}>
+        <Box sx={{ margin: 3, color: "#434343", display: "flex", alignItems: "center" }}>
           <AccessTimeIcon />
-          <text style={{ margin: 0 }}>{`　${(monthlyTime / 3600).toFixed(1)}h　Monthly time`}</text>
-        </div>
+          <Box sx={{ ml: 1 }}>{`${(monthlyTime / 3600).toFixed(1)}h Monthly Time`}</Box>
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
         <IconButton
           onClick={handleToggle}
@@ -67,7 +78,7 @@ const Header = ({ headerHeight, activeComponent }) => {
         </Menu>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
 export default Header;

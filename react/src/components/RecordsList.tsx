@@ -1,36 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import {
-  List,
-  Pagination,
-} from '@mui/material';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { List, Pagination, Box } from '@mui/material';
 
 import { getRecords } from '../api/request';
-
 import Record from './Record';
 
-const RecordsList = () => {
-  const [records, setRecords] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0); // トータルページ数を状態で管理
+export type RecordType = {
+  id: number;
+  userId: number;
+  studyTime: number;
+  startYear: number;
+  startMonth: number;
+  startDay: number;
+  startTime: string;
+  endYear: number;
+  endMonth: number;
+  endDay: number;
+  endTime: string;
+  memo: string;
+}
 
-  const handleChange = (event, value) => {
-    setPage(value);
-  }
+export type RecordsType = RecordType[];
+
+const RecordsList: React.FC = () => {
+  const [records, setRecords] = useState<RecordsType>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0); // トータルページ数を状態で管理
 
   useEffect(() => {
-    getRecords(page).then(res => {
-      setRecords(res.data.records);
-      setPage(res.data.pagination.pagination.current);
-      setTotalPages(res.data.pagination.pagination.pages); // ページ総数を設定
-    }).catch(err => console.error('Failed to fetch records:', err));
+    const fetchRecords = async () => {
+      try {
+        const res = await getRecords(page);
+        setRecords(res.data.records);
+        setPage(res.data.pagination.pagination.current);
+        setTotalPages(res.data.pagination.pagination.pages);
+      } catch (err) {
+        console.error('Failed to fetch records:', err)
+      };
+    }
+
+    fetchRecords();
   }, [page]);
 
+  const handleChange = (_: ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
-    <div>
-      <div>
+    <Box>
+      <Box>
         <h1>Time Records</h1>
         <h2>学習記録</h2>
-      </div>
+      </Box>
       <List
         sx={{
           backgroundColor: "#f5f5f5",
@@ -43,14 +63,18 @@ const RecordsList = () => {
         }}>
         {
           records.map((record) => (
-            <React.Fragment key={record.id}>
-              <Record records={records} record={record} setRecords={setRecords} />
-            </React.Fragment>
+            <Record key={record.id} records={records} record={record} setRecords={setRecords} />
           ))
         }
       </List >
-      < Pagination count={totalPages} color="primary" page={page} onChange={handleChange} sx={{ mt: 2, display: 'flex', justifyContent: 'center' }} />
-    </div>
+      <Pagination
+        count={totalPages}
+        color="primary"
+        page={page}
+        onChange={handleChange}
+        sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}
+      />
+    </Box>
   );
 };
 

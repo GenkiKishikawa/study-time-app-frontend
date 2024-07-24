@@ -1,9 +1,22 @@
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
+import React from 'react';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import DvrIcon from '@mui/icons-material/Dvr';
 import WatchIcon from '@mui/icons-material/Watch';
 import TimelineIcon from '@mui/icons-material/Timeline';
 
-const Sidebar = ({ onComponentSwitch, sidebarWidth }) => {
+interface SidebarProps {
+  onComponentSwitch: (componentName: string) => void;
+  sidebarWidth: number;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) => {
+  const listItemStyle = {
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    my: 2  // Margin top and bottom using theme spacing
+  };
+
   return (
     <Drawer
       variant="permanent"
@@ -22,19 +35,19 @@ const Sidebar = ({ onComponentSwitch, sidebarWidth }) => {
       <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
         <List>
-          <ListItem button onClick={() => onComponentSwitch('recordsList')} sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+          <ListItem button onClick={() => onComponentSwitch('recordsList')} sx={listItemStyle}>
             <ListItemIcon sx={{ minWidth: 0 }}>
               <DvrIcon />
             </ListItemIcon>
             <ListItemText primary="Time Records" />
           </ListItem>
-          <ListItem button onClick={() => onComponentSwitch('timer')} sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+          <ListItem button onClick={() => onComponentSwitch('timer')} sx={listItemStyle}>
             <ListItemIcon sx={{ minWidth: 0 }}>
               <WatchIcon />
             </ListItemIcon>
             <ListItemText primary="Timer" />
           </ListItem>
-          <ListItem button sx={{ flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+          <ListItem button sx={listItemStyle}>
             <ListItemIcon sx={{ minWidth: 0 }}>
               <TimelineIcon />
             </ListItemIcon>
@@ -43,7 +56,7 @@ const Sidebar = ({ onComponentSwitch, sidebarWidth }) => {
         </List>
       </Box>
     </Drawer>
-  )
-}
+  );
+};
 
 export default Sidebar;

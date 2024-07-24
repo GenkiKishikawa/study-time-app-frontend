@@ -1,36 +1,37 @@
-import { useState } from 'react';
-
-import {
-  Box,
-} from '@mui/material';
+import React, { useState, ReactElement } from 'react';
+import { Box } from '@mui/material';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import RecordsList from './RecordsList.tsx';
+import RecordsList from './RecordsList';
 import Timer from './Timer';
 
-const sidebarWidth = 150;
-const headerHeight = 63;
+type MainProps = {
+  sidebarWidth?: number;
+  headerHeight?: number;
+}
 
-const Main = () => {
+const DEFAULT_SIDEBAR_WIDTH = 150;
+const DEFAULT_HEADER_HEIGHT = 63;
 
-  const [activeComponent, setActiveComponent] = useState('recordsList');
+const Main: React.FC<MainProps> = ({
+  sidebarWidth = DEFAULT_SIDEBAR_WIDTH,
+  headerHeight = DEFAULT_HEADER_HEIGHT
+}): ReactElement => {
+  const [activeComponent, setActiveComponent] = useState<string>('recordsList');
 
-  // コンポーネントを切り替える関数
-  const handleComponentSwitch = (componentName) => {
+  const handleComponentSwitch = (componentName: string): void => {
     setActiveComponent(componentName);
   }
 
   return (
-    <div>
-      <Box sx={{ display: 'flex' }}>
-        <Header headerHeight={headerHeight} activeComponent={activeComponent} />
-        <Sidebar onComponentSwitch={handleComponentSwitch} sidebarWidth={sidebarWidth} />
-        <Box sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${sidebarWidth}px)` }, mt: `${headerHeight}px` }}>
-          {activeComponent === 'recordsList' && <RecordsList />}
-          {activeComponent === 'timer' && <Timer onComponentSwitch={handleComponentSwitch} />}
-        </Box>
+    <Box display="flex">
+      <Header headerHeight={headerHeight} activeComponent={activeComponent} />
+      <Sidebar onComponentSwitch={handleComponentSwitch} sidebarWidth={sidebarWidth} />
+      <Box flexGrow={1} p={3} width={`calc(100% - ${sidebarWidth}px)`} mt={`${headerHeight}px`}>
+        {activeComponent === 'recordsList' && <RecordsList />}
+        {activeComponent === 'timer' && <Timer onComponentSwitch={handleComponentSwitch} />}
       </Box>
-    </div >
+    </Box>
   );
 }
 

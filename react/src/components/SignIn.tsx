@@ -1,8 +1,8 @@
-import Cookies from "js-cookie";
-import { useContext, useState } from "react";
+import React, { useContext, useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth";
 import { AuthContext } from "../App";
+import Cookies from "js-cookie";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
@@ -16,26 +16,17 @@ const SendButton = styled(Button)({
   }
 });
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const generateParams = () => {
-    const signInParams = {
-      email: email,
-      password: password,
-    };
-    return signInParams;
-  };
-
-  const handleSignInSubmit = async (e: any) => {
+  const handleSignInSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const params = generateParams();
 
     try {
-      const res = await signIn(params);
+      const res = await signIn({ email, password });
       if (res.status === 200) {
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
@@ -46,8 +37,8 @@ const SignIn = () => {
 
         navigate("/");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
 

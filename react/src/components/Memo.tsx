@@ -1,37 +1,53 @@
+import React, { useState, useCallback } from "react";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
 
 import { putRecord } from "../api/request";
 
-const Memo = (props) => {
-  const [memo, setMemo] = useState(props.memo);
+interface MemoProps {
+  memo: string;
+  recordId: number;
+  setIsShowMemo: (isShowMemo: boolean) => void;
+}
 
-  const closeMemo = () => {
-    props.setIsShowMemo(false);
-  }
+const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo }) => {
+  const [memo, setMemo] = useState(initialMemo);
 
-  const handleUpdateMemo = (recordId, memo) => {
-    putRecord(recordId, { memo }).then(res => {
-      console.log('Updated memo:', res.data);
-    }).catch(err => console.error('Failed to update memo:', err));
-  }
-  if (props.IsShowMemo) {
-    return (
-      <div className="overlay" onClick={closeMemo}>
-        <div id="memo" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
-          <MDEditor
-            value={memo}
-            onChange={setMemo}
-            height={600}
-          />
-          <div style={{ marginTop: 8 }}>
-            <button className="memoButton" onClick={closeMemo}>close</button>
-            <button className="memoButton" onClick={() => handleUpdateMemo(props.recordId, memo)}>save</button>
-          </div>
+  const closeMemo = useCallback(() => {
+    setIsShowMemo(false);
+  }, [setIsShowMemo]);
+
+  const handleUpdateMemo = useCallback(async () => {
+    try {
+      const response = await putRecord(recordId, { memo });
+      console.log('Updated memo:', response.data);
+      closeMemo();
+    } catch (err) {
+      console.error('Failed to update memo:', err);
+    }
+  }, [recordId, memo, closeMemo]);
+
+  // onChangeイベントハンドラーをラップして型を合わせます
+  const onChangeMemo = (value?: string) => {
+    if (value !== undefined) {
+      setMemo(value);
+    }
+  };
+
+  return (
+    <div className="overlay" onClick={closeMemo}>
+      <div id="memo" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
+        <MDEditor
+          value={memo}
+          onChange={onChangeMemo}
+          height={600}
+        />
+        <div style={{ marginTop: 8 }}>
+          <button className="memoButton" onClick={closeMemo}>close</button>
+          <button className="memoButton" onClick={handleUpdateMemo}>save</button>
         </div>
-      </div >
-    )
-  }
+      </div>
+    </div>
+  );
 };
 
 export default Memo;

@@ -1,6 +1,12 @@
 import MDEditor from "@uiw/react-md-editor";
+import React from "react";
 
-const MarkdownEditor = ({ mdValue, setMdValue }) => {
+type MarkdownEditorProps = {
+  mdValue: string;
+  setMdValue: (value: string) => void;
+}
+
+const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ mdValue, setMdValue }) => {
   return (
     <div className="markdownEditor" style={{ margin: 20 }}>
       <MDEditor
