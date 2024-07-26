@@ -4,6 +4,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import RecordsList from './RecordsList';
 import Timer from './Timer';
+import Stats from './Stats';
 
 type MainProps = {
   sidebarWidth?: number;
@@ -30,6 +31,7 @@ const Main: React.FC<MainProps> = ({
       <Box flexGrow={1} p={3} width={`calc(100% - ${sidebarWidth}px)`} mt={`${headerHeight}px`}>
         {activeComponent === 'recordsList' && <RecordsList />}
         {activeComponent === 'timer' && <Timer onComponentSwitch={handleComponentSwitch} />}
+        {activeComponent === 'stats' && <Stats />}
       </Box>
     </Box>
   );

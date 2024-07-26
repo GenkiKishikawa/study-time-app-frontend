@@ -50,3 +50,13 @@ export const getMonthlyTime = (month: any) => {
     },
   });
 }
+
+export const getDailyTime = (month: any, day: any) => {
+  return api.get(`/daily_time?month=${month}&day=${day}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}

@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
             </ListItemIcon>
             <ListItemText primary="Timer" />
           </ListItem>
-          <ListItem button sx={listItemStyle}>
+          <ListItem button onClick={() => onComponentSwitch('stats')} sx={listItemStyle}>
             <ListItemIcon sx={{ minWidth: 0 }}>
               <TimelineIcon />
             </ListItemIcon>
