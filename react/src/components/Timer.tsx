@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
+import Devider from '@mui/material/Divider';
+import { Box } from '@mui/material';
+
 import Stopwatch from './Stopwatch';
 import MarkdownEditor from './MarkdownEditor';
-
-import Devider from '@mui/material/Divider';
 
 type TimerProps = {
   onComponentSwitch: (componentName: string) => void;
@@ -14,15 +15,17 @@ const Timer: React.FC<TimerProps> = ({ onComponentSwitch }) => {
   const [mdValue, setMdValue] = useState("**Hello world!!!**");
 
   return (
-    <div>
-      <h1>Timer</h1>
-      <h2>時間計測</h2>
+    <Box>
+      <Box>
+        <h1>Timer</h1>
+        <h2>時間計測</h2>
+      </Box>
       <Stopwatch mdValue={mdValue} onComponentSwitch={onComponentSwitch} />
-      <div style={{ margin: 20 }}>
+      <Box style={{ margin: 20 }}>
         <Devider />
-      </div>
+      </Box>
       <MarkdownEditor mdValue={mdValue} setMdValue={setMdValue} />
-    </div>
+    </Box>
   );
 }
 

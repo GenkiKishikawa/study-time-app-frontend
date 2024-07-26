@@ -67,7 +67,7 @@ const Record: React.FC<RecordPropsType> = (props) => {
       >
         <AccessTimeIcon style={{ marginRight: '10px' }} />
         <ListItemText
-          primary={`${(props.record.studyTime / 3600).toFixed(1)} Hour　　　${displayTimeFormat(props.record)}`}
+          primary={`${(props.record.studyTime / 3600).toFixed(1)} Hours　　　${displayTimeFormat(props.record)}`}
           style={{ paddingRight: 0 }}
         />
       </ListItem >
