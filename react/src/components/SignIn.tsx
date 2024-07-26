@@ -20,6 +20,7 @@ const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSignInSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,15 +38,19 @@ const SignIn: React.FC = () => {
 
         navigate("/");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (err: any) {
+      if (err.response.data.success === false) {
+        setErrorMessage(err.response.data.errors[0]);
+      }
+      console.log(err);
+    };
   };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <form onSubmit={handleSignInSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '320px' }}>
         <h1>ログイン</h1>
+        {errorMessage && <div style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</div>}
         <TextField
           type="email"
           label="Email"
