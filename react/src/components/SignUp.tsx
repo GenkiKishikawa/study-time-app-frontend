@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { signUp } from "../api/auth";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
@@ -17,39 +15,37 @@ const SendButton = styled(Button)({
   }
 });
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+const SignUp: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const confirmSuccessUrl = "http://localhost:3000";
-
   const navigate = useNavigate();
 
-  const generateParams = () => {
-    const signUpParams = {
-      email: email,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
-      confirmSuccessUrl: confirmSuccessUrl,
+  const handleSignUpSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await signUp({
+        email,
+        password,
+        passwordConfirmation,
+        confirmSuccessUrl,
+      });
+      navigate("/signin");
+    } catch (err: any) {
+      if (err.response.data.status === "error") {
+        setErrorMessage(err.response.data.errors.fullMessages);
+      }
+      console.log(err);
     };
-    return signUpParams;
   };
 
-  const handleSignUpSubmit = async (e: any) => {
-    e.preventDefault();
-    const params = generateParams();
-    try {
-      const res = await signUp(params);
-      console.log(res);
-      navigate("/signin");
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '450px' }}>
+      <form onSubmit={handleSignUpSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '450px' }}>
         <h1>アカウント作成</h1>
+        {errorMessage && <div style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</div>}
         <div>
           <TextField
             type="email"
@@ -89,7 +85,6 @@ const SignUp = () => {
           />
         </div>
         <SendButton
-          onClick={(e) => handleSignUpSubmit(e)}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

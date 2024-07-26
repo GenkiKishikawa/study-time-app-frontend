@@ -1,9 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 
 import { postRecord } from "../api/request";
 
-const Stopwatch = ({ mdValue, onComponentSwitch }) => {
+type StopwatchProps = {
+  mdValue: string;
+  onComponentSwitch: (componentName: string) => void;
+}
+
+const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch }) => {
   const {
     totalSeconds,
     seconds,
