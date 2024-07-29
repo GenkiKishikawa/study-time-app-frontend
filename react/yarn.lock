@@ -2905,6 +2905,11 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+react-color-palette@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/react-color-palette/-/react-color-palette-7.2.1.tgz#c3fd04023f440ad2e8c4a74f0ac79a5bfe7c6fbd"
+  integrity sha512-wulPqPc6qblr/bsjbW50t/je9keTRrouzPhimktCzBleNUxVJNN84cOZX5XzuS8ubQPg3h57gUT6vAKlBUDhUQ==
+
 react-dom@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"

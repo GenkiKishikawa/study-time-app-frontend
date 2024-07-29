@@ -3,6 +3,7 @@ import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from
 import DvrIcon from '@mui/icons-material/Dvr';
 import WatchIcon from '@mui/icons-material/Watch';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 
 interface SidebarProps {
   onComponentSwitch: (componentName: string) => void;
@@ -46,6 +47,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
               <WatchIcon />
             </ListItemIcon>
             <ListItemText primary="Timer" />
+          </ListItem>
+          <ListItem button onClick={() => onComponentSwitch('categories')} sx={listItemStyle}>
+            <ListItemIcon sx={{ minWidth: 0 }}>
+              <SubjectRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Category" />
           </ListItem>
           <ListItem button onClick={() => onComponentSwitch('stats')} sx={listItemStyle}>
             <ListItemIcon sx={{ minWidth: 0 }}>

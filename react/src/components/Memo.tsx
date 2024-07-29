@@ -18,8 +18,7 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
 
   const handleUpdateMemo = useCallback(async () => {
     try {
-      const response = await putRecord(recordId, { memo });
-      console.log('Updated memo:', response.data);
+      await putRecord(recordId, { memo });
       closeMemo();
     } catch (err) {
       console.error('Failed to update memo:', err);
