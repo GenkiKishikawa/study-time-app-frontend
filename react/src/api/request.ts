@@ -60,3 +60,43 @@ export const getDailyTime = (month: any, day: any) => {
     },
   });
 }
+
+export const getCategories = () => {
+  return api.get('/categories', {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const postCategory = (params: any) => {
+  return api.post('/categories', params, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const deleteCategory = (id: number) => {
+  return api.delete(`/categories/${id}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const getCategory = (id: number) => {
+  return api.get(`/categories/${id}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}

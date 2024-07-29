@@ -34,7 +34,6 @@ const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, 
   const handleUpdateRecord = async () => {
     try {
       await putRecord(thisRecord.id, thisRecord)
-      console.log('Record updated successfully');
     } catch (err) {
       console.error('Failed to update record:', err);
     }

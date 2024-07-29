@@ -6,9 +6,10 @@ import { postRecord } from "../api/request";
 type StopwatchProps = {
   mdValue: string;
   onComponentSwitch: (componentName: string) => void;
+  categoryId: number;
 }
 
-const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch }) => {
+const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch, categoryId }) => {
   const {
     totalSeconds,
     seconds,
@@ -46,6 +47,7 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch }) => 
       endDay: new Date().getDate(),
       endTime: new Date().toLocaleTimeString(),
       memo: mdValue,
+      categoryId: categoryId,
     };
 
     await postRecord(params);

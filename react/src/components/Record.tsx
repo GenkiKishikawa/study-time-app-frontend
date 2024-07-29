@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-import { deleteRecord } from '../api/request';
+import { deleteRecord, getCategory } from '../api/request';
 import Memo from './Memo';
 import EditForm from './EditForm';
 import { RecordType } from './RecordsList';
@@ -19,6 +19,19 @@ type RecordPropsType = {
 const Record: React.FC<RecordPropsType> = (props) => {
   const [isShowMemo, setIsShowMemo] = useState(false);
   const [isShowEditForm, setIsShowEditForm] = useState(false);
+  const [category, setCategory] = useState('');
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const res = await getCategory(props.record.categoryId);
+        setCategory(res.data.name);
+      } catch (err) {
+        console.error('Failed to fetch category:', err);
+      }
+    }
+    fetchCategory();
+  }, []);
 
   const handleDeleteRecord = async () => {
     try {
@@ -67,7 +80,7 @@ const Record: React.FC<RecordPropsType> = (props) => {
       >
         <AccessTimeIcon style={{ marginRight: '10px' }} />
         <ListItemText
-          primary={`${(props.record.studyTime / 3600).toFixed(1)} Hours　　　${displayTimeFormat(props.record)}`}
+          primary={`${(props.record.studyTime / 3600).toFixed(1)} Hours　${displayTimeFormat(props.record)}　${category}`}
           style={{ paddingRight: 0 }}
         />
       </ListItem >
