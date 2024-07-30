@@ -1,8 +1,8 @@
 import api from './api';
 import Cookies from 'js-cookie';
 
-export const getRecords = (page: number) => {
-  return api.get(`/records?page=${page}`, {
+export const getRecords = (page: number, order: string) => {
+  return api.get(`/records?page=${page}&order=${order}`, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),
