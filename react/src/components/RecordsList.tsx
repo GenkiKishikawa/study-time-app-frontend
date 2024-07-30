@@ -60,7 +60,13 @@ const RecordsList: React.FC = () => {
         marginRight: 65,
         marginTop: 3,
       }}>
-        <IconButton onClick={(e) => { setIsDesc(!isDesc) }} >
+        <IconButton onClick={() => { setIsDesc(!isDesc) }} sx={
+          {
+            '&:hover': {
+
+            }
+          }
+        } >
           <SwapVertIcon />
         </IconButton>
       </Box>
@@ -82,7 +88,6 @@ const RecordsList: React.FC = () => {
       </List >
       <Pagination
         count={totalPages}
-        color="primary"
         page={page}
         onChange={handleChange}
         sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}

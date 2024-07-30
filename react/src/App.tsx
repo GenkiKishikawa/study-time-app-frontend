@@ -6,6 +6,8 @@ import Main from "./components/Main";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+
 interface AuthContextType {
   loading: boolean;
   isSignedIn: boolean;
@@ -31,6 +33,12 @@ const defaultAuthValue: AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType>(defaultAuthValue);
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Zen Maru Gothic',
+  },
+});
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -64,15 +72,17 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>} />
-        </Routes>
-      </BrowserRouter>
-    </AuthContext.Provider>
+    <ThemeProvider theme={theme}>
+      <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthContext.Provider>
+    </ThemeProvider>
   );
 }
 

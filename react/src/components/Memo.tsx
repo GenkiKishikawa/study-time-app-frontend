@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 import MDEditor from "@uiw/react-md-editor";
+import { Button } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
 
 import { putRecord } from "../api/request";
 
@@ -41,8 +43,20 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
           height={600}
         />
         <div style={{ marginTop: 8 }}>
-          <button className="memoButton" onClick={closeMemo}>close</button>
-          <button className="memoButton" onClick={handleUpdateMemo}>save</button>
+          <Button
+            variant="contained"
+            onClick={handleUpdateMemo}
+            endIcon={<SendIcon />}
+            sx={{
+              color: '#d9d9d9',
+              backgroundColor: '#434343',
+              '&:hover': {
+                backgroundColor: '#333333',
+              }
+            }}
+          >
+            続ける
+          </Button>
         </div>
       </div>
     </div>
