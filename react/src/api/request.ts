@@ -100,3 +100,24 @@ export const getCategory = (id: number) => {
     },
   });
 }
+
+export const putUser = (params: any) => {
+  return api.put(`/users/upload_image`, params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const getUser = () => {
+  return api.get('/users/show', {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
