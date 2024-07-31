@@ -1,9 +1,10 @@
-import React from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Drawer, Tabs, Tab, Toolbar } from '@mui/material';
 import DvrIcon from '@mui/icons-material/Dvr';
 import WatchIcon from '@mui/icons-material/Watch';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 interface SidebarProps {
   onComponentSwitch: (componentName: string) => void;
@@ -11,11 +12,11 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) => {
-  const listItemStyle = {
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    my: 2  // Margin top and bottom using theme spacing
+  const [selectedComponent, setSelectedComponent] = useState<string>('recordsList');
+
+  const handleComponentSwitch = (event: React.SyntheticEvent, componentName: string) => {
+    setSelectedComponent(componentName);
+    onComponentSwitch(componentName);
   };
 
   return (
@@ -35,32 +36,33 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
     >
       <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
-        <List>
-          <ListItem button onClick={() => onComponentSwitch('recordsList')} sx={listItemStyle}>
-            <ListItemIcon sx={{ minWidth: 0 }}>
-              <DvrIcon />
-            </ListItemIcon>
-            <ListItemText primary="Time Records" />
-          </ListItem>
-          <ListItem button onClick={() => onComponentSwitch('timer')} sx={listItemStyle}>
-            <ListItemIcon sx={{ minWidth: 0 }}>
-              <WatchIcon />
-            </ListItemIcon>
-            <ListItemText primary="Timer" />
-          </ListItem>
-          <ListItem button onClick={() => onComponentSwitch('categories')} sx={listItemStyle}>
-            <ListItemIcon sx={{ minWidth: 0 }}>
-              <SubjectRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Category" />
-          </ListItem>
-          <ListItem button onClick={() => onComponentSwitch('stats')} sx={listItemStyle}>
-            <ListItemIcon sx={{ minWidth: 0 }}>
-              <TimelineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Stats" />
-          </ListItem>
-        </List>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={selectedComponent}
+          onChange={handleComponentSwitch}
+          sx={{
+            borderColor: 'divider',
+            borderRadius: 1,
+            '.MuiTab-root': {
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              },
+            },
+          }}
+          TabIndicatorProps={{ style: { backgroundColor: '#a9a9a9' } }}
+        >
+          <Tab value="recordsList" label="Time Records" icon={<DvrIcon />} iconPosition="top"
+            sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
+          <Tab value="timer" label="Timer" icon={<WatchIcon />} iconPosition="top"
+            sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
+          <Tab value="categories" label="Category" icon={<SubjectRoundedIcon />} iconPosition="top"
+            sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
+          <Tab value="todo" label="Todo" icon={<ChecklistIcon />} iconPosition="top"
+            sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
+          <Tab value="stats" label="Stats" icon={<TimelineIcon />} iconPosition="top"
+            sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
+        </Tabs>
       </Box>
     </Drawer>
   );
