@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
+import { IconButton } from "@mui/material";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import SendIcon from '@mui/icons-material/Send';
 
 import { postRecord } from "../api/request";
 
@@ -61,10 +66,18 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch, categ
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
       </div>
       <p>開始時間: {startTimeValue}</p>
-      <button className="hoverEffect" onClick={handleStart}>Start</button>
-      <button className="hoverEffect" onClick={pause}>Stop</button>
-      <button className="hoverEffect" onClick={handleReset}>Reset</button>
-      <button className="hoverEffect" onClick={handleSave}>End</button>
+      <IconButton onClick={handleStart} >
+        <PlayArrowIcon />
+      </IconButton>
+      <IconButton onClick={pause} >
+        <StopIcon />
+      </IconButton>
+      <IconButton onClick={handleReset} >
+        <RestartAltIcon />
+      </IconButton>
+      <IconButton onClick={handleSave} >
+        <SendIcon />
+      </IconButton>
     </div>
   )
 }

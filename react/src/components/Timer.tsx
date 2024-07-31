@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import Devider from '@mui/material/Divider';
 import { Box } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
@@ -41,9 +40,6 @@ const Timer: React.FC<TimerProps> = ({ onComponentSwitch }) => {
         <h2>時間計測</h2>
       </Box>
       <Stopwatch mdValue={mdValue} onComponentSwitch={onComponentSwitch} categoryId={category} />
-      <Box style={{ margin: 20 }}>
-        <Devider />
-      </Box>
       <Box style={{ marginLeft: 20 }}>
         <FormControl sx={{ width: 100 }} >
           <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -59,9 +55,6 @@ const Timer: React.FC<TimerProps> = ({ onComponentSwitch }) => {
             ))}
           </Select>
         </FormControl>
-      </Box>
-      <Box style={{ margin: 20 }}>
-        <Devider />
       </Box>
       <MarkdownEditor mdValue={mdValue} setMdValue={setMdValue} />
     </Box>
