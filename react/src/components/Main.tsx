@@ -1,4 +1,4 @@
-import React, { useState, ReactElement } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -6,6 +6,7 @@ import RecordsList from './RecordsList';
 import Timer from './Timer';
 import CategoriesList from './CategoriesList';
 import Stats from './Stats';
+import Todo from './Todo';
 
 type MainProps = {
   sidebarWidth?: number;
@@ -18,8 +19,16 @@ const DEFAULT_HEADER_HEIGHT = 63;
 const Main: React.FC<MainProps> = ({
   sidebarWidth = DEFAULT_SIDEBAR_WIDTH,
   headerHeight = DEFAULT_HEADER_HEIGHT
-}): ReactElement => {
-  const [activeComponent, setActiveComponent] = useState<string>('recordsList');
+}) => {
+  const [activeComponent, setActiveComponent] = useState<string>(() => {
+    // localStorageから値を読み込む
+    return localStorage.getItem('activeComponent') || 'recordsList';
+  });
+
+  // コンポーネントの選択が変わったらlocalStorageを更新
+  useEffect(() => {
+    localStorage.setItem('activeComponent', activeComponent);
+  }, [activeComponent]);
 
   const handleComponentSwitch = (componentName: string): void => {
     setActiveComponent(componentName);
@@ -34,6 +43,7 @@ const Main: React.FC<MainProps> = ({
         {activeComponent === 'timer' && <Timer onComponentSwitch={handleComponentSwitch} />}
         {activeComponent === 'categories' && <CategoriesList />}
         {activeComponent === 'stats' && <Stats />}
+        {activeComponent === 'todo' && <Todo />}
       </Box>
     </Box>
   );

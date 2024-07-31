@@ -54,7 +54,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />
-          <ColorPicker color={color} onChange={setColor} />;
+          <ColorPicker color={color} onChange={setColor} />
           <SendButton
             type="submit"
             variant="contained"

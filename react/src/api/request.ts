@@ -1,8 +1,8 @@
 import api from './api';
 import Cookies from 'js-cookie';
 
-export const getRecords = (page: number) => {
-  return api.get(`/records?page=${page}`, {
+export const getRecords = (page: number, order: string) => {
+  return api.get(`/records?page=${page}&order=${order}`, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),
@@ -93,6 +93,27 @@ export const deleteCategory = (id: number) => {
 
 export const getCategory = (id: number) => {
   return api.get(`/categories/${id}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const putUser = (params: any) => {
+  return api.put(`/users/upload_image`, params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    },
+  });
+}
+
+export const getUser = () => {
+  return api.get('/users/show', {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),

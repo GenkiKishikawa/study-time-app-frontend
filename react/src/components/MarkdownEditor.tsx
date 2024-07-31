@@ -11,7 +11,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ mdValue, setMdValue }) 
     <div className="markdownEditor" style={{ margin: 20 }}>
       <MDEditor
         value={mdValue}
-        onChange={setMdValue}
+        onChange={() => { setMdValue }}
       />
     </div >
   )
