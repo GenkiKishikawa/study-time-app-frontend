@@ -3,20 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-import Stopwatch from './Stopwatch';
-import MarkdownEditor from './MarkdownEditor';
-import { getCategories } from '../api/request';
-
-type TimerProps = {
-  onComponentSwitch: (componentName: string) => void;
-}
+import Stopwatch from '../../components/Stopwatch';
+import MarkdownEditor from '../../components/MarkdownEditor';
+import { getCategories } from '../../api/request';
 
 type Category = {
   id: number;
   name: string;
 }
 
-const Timer: React.FC<TimerProps> = ({ onComponentSwitch }) => {
+const Timer: React.FC = () => {
   const [mdValue, setMdValue] = useState("**Hello world!!!**");
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(1);
@@ -39,7 +35,7 @@ const Timer: React.FC<TimerProps> = ({ onComponentSwitch }) => {
         <h1>Timer</h1>
         <h2>時間計測</h2>
       </Box>
-      <Stopwatch mdValue={mdValue} onComponentSwitch={onComponentSwitch} categoryId={category} />
+      <Stopwatch mdValue={mdValue} categoryId={category} />
       <Box style={{ marginLeft: 20 }}>
         <FormControl sx={{ width: 100 }} >
           <InputLabel id="demo-simple-select-label">Category</InputLabel>

@@ -6,15 +6,6 @@ import Cookies from "js-cookie";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
-import { styled } from "@mui/material";
-
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
 
 const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
@@ -67,9 +58,9 @@ const SignIn: React.FC = () => {
           fullWidth
           sx={{ margin: '5px' }}
         />
-        <SendButton type="submit" variant="contained" endIcon={<SendIcon />}>
+        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
           続ける
-        </SendButton>
+        </Button>
         <Link to="/signup">アカウントの作成</Link>
       </form>
     </div>

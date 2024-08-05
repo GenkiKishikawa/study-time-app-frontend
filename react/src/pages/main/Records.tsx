@@ -3,8 +3,8 @@ import { List, Pagination, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
-import { getRecords } from '../api/request';
-import Record from './Record';
+import { getRecords } from '../../api/request';
+import Record from '../../components/Record';
 
 export type RecordType = {
   id: number;
@@ -23,7 +23,7 @@ export type RecordType = {
 
 export type RecordsType = RecordType[];
 
-const RecordsList: React.FC = () => {
+const Records: React.FC = () => {
   const [records, setRecords] = useState<RecordsType>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -60,13 +60,7 @@ const RecordsList: React.FC = () => {
         marginRight: 65,
         marginTop: 3,
       }}>
-        <IconButton onClick={() => { setIsDesc(!isDesc) }} sx={
-          {
-            '&:hover': {
-
-            }
-          }
-        } >
+        <IconButton onClick={() => { setIsDesc(!isDesc) }}>
           <SwapVertIcon />
         </IconButton>
       </Box>
@@ -96,4 +90,4 @@ const RecordsList: React.FC = () => {
   );
 };
 
-export default RecordsList;
+export default Records;

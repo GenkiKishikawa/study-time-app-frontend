@@ -7,14 +7,6 @@ import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
 import { styled } from "@mui/material";
 
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
-
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -84,13 +76,13 @@ const SignUp: React.FC = () => {
             value={confirmSuccessUrl}
           />
         </div>
-        <SendButton
+        <Button
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}
         >
           続ける
-        </SendButton>
+        </Button>
         <Link to="/signin">ログインへ</Link>
       </form>
     </div>
