@@ -7,14 +7,14 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SendIcon from '@mui/icons-material/Send';
 
 import { postRecord } from "../api/request";
+import { useNavigate } from "react-router-dom";
 
 type StopwatchProps = {
   mdValue: string;
-  onComponentSwitch: (componentName: string) => void;
   categoryId: number;
 }
 
-const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch, categoryId }) => {
+const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
   const {
     totalSeconds,
     seconds,
@@ -25,6 +25,7 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch, categ
     pause,
     reset,
   } = useStopwatch();
+  const navigate = useNavigate();
 
   const [startTimeValue, setStartTimeValue] = useState("");
 
@@ -56,8 +57,7 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, onComponentSwitch, categ
     };
 
     await postRecord(params);
-
-    onComponentSwitch('recordsList');
+    navigate("/");
   }
 
   return (

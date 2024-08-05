@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, styled } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import { putRecord } from "../api/request";
 
@@ -14,15 +14,7 @@ type EditFormProps = {
     endTime: string;
     studyTime: number;
   };
-}
-
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
+};
 
 const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, record }) => {
   const [thisRecord, setThisRecord] = useState(record);
@@ -95,14 +87,14 @@ const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, 
               value={`${Math.floor(thisRecord.studyTime / 3600)}:${Math.floor(thisRecord.studyTime % 3600 / 60)}:${thisRecord.studyTime % 60}`}
             />
           </div>
-          <SendButton
+          <Button
             type="submit"
             variant="contained"
             endIcon={<SendIcon />}
             onClick={handleUpdateRecord}
           >
             続ける
-          </SendButton>
+          </Button>
         </form>
       </div>
     </div>

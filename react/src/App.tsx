@@ -2,9 +2,9 @@ import "./App.css";
 import React, { createContext, useEffect, useState, ReactNode } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { getCurrentUser } from "./api/auth";
-import Main from "./components/Main";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import Main from "./pages/Main";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
@@ -38,6 +38,20 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Zen Maru Gothic',
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: '#d9d9d9',
+          backgroundColor: '#434343',
+          '&:hover': {
+            backgroundColor: '#333333',
+          },
+        },
+      },
+    },
+  },
+
 });
 
 function App() {
@@ -78,7 +92,7 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>} />
+            <Route path="/*" element={<PrivateRoute><Main /></PrivateRoute>} />
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>

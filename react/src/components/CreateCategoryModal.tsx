@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 
-import { TextField, Button, styled } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import { ColorPicker, useColor } from 'react-color-palette';
 import "react-color-palette/css";
 
 import { postCategory } from "../api/request";
-
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
 
 type CreateCategoryModalProps = {
   isShowCreateModal: boolean;
@@ -55,13 +47,13 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
             onChange={(e) => setCategoryName(e.target.value)}
           />
           <ColorPicker color={color} onChange={setColor} />
-          <SendButton
+          <Button
             type="submit"
             variant="contained"
             endIcon={<SendIcon />}
             onClick={handleCreateCategory}           >
             続ける
-          </SendButton>
+          </Button>
         </form>
       </div>
     </div >

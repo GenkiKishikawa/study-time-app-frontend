@@ -47,13 +47,6 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
             variant="contained"
             onClick={handleUpdateMemo}
             endIcon={<SendIcon />}
-            sx={{
-              color: '#d9d9d9',
-              backgroundColor: '#434343',
-              '&:hover': {
-                backgroundColor: '#333333',
-              }
-            }}
           >
             続ける
           </Button>
