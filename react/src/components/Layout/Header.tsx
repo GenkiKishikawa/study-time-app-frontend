@@ -4,15 +4,14 @@ import { AppBar, Box, IconButton, Toolbar, Menu, MenuItem, Dialog, DialogActions
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { signOut } from '../api/auth';
-import { getMonthlyTime, putUser, getUser } from '../api/request';
+import { signOut } from '../../api/auth';
+import { getMonthlyTime, putUser, getUser } from '../../api/request';
 
 interface HeaderProps {
   headerHeight: number;
-  activeComponent: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
+const Header: React.FC<HeaderProps> = ({ headerHeight }) => {
   const [open, setOpen] = useState(false);
   const [monthlyTime, setMonthlyTime] = useState(0);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -21,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
   const [user, setUser] = useState<any>({});
   const navigate = useNavigate();
 
-  const handleToggle = (event: MouseEvent<HTMLElement>) => {
+  const handleToggle = (_: MouseEvent<HTMLElement>) => {
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -58,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
       }
     };
     fetchMonthlyTime();
-  }, [activeComponent]);
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -82,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
   return (
     <AppBar
       elevation={0}
-      position="fixed"
+      position="sticky"
       sx={{
         height: headerHeight,
         borderBottom: 1,
@@ -133,14 +132,8 @@ const Header: React.FC<HeaderProps> = ({ headerHeight, activeComponent }) => {
             onClick={handleSubmitImage}
             variant="contained"
             color="primary"
-            sx={{
-              color: '#d9d9d9',
-              backgroundColor: '#434343',
-              '&:hover': {
-                backgroundColor: '#333333',
-              }
-            }}>
-            Upload
+          >
+            続ける
           </Button>
         </DialogActions>
       </Dialog>
