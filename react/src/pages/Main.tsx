@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import Layout from '../components/Layout/Layout';
 import Records from './main/Records';

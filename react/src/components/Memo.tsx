@@ -3,6 +3,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 
+import Overlay from "./common/Overlay";
 import { putRecord } from "../api/request";
 
 interface MemoProps {
@@ -35,7 +36,7 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
   };
 
   return (
-    <div className="overlay" onClick={closeMemo}>
+    <Overlay onClick={closeMemo}>
       <div id="memo" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
         <MDEditor
           value={memo}
@@ -52,7 +53,7 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
           </Button>
         </div>
       </div>
-    </div>
+    </Overlay>
   );
 };
 

@@ -3,22 +3,6 @@
   padding: auto;
 }
 
-.overlay {
-  position: fixed;
-  /* 画面全体に固定 */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* 透明度を持たせた黒で背景を暗くする */
-  display: flex;
-  align-items: center;
-  /* 中央揃えのためのスタイリング */
-  justify-content: center;
-  z-index: 1000
-}
-
 #memo {
   background: #f5f5f5;
   padding: 20px;

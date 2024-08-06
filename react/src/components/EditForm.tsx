@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
+
 import { putRecord } from "../api/request";
+import Overlay from "./common/Overlay";
 
 type EditFormProps = {
   IsShowEditForm: boolean;
@@ -35,7 +37,7 @@ const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, 
   if (!IsShowEditForm) return null;
 
   return (
-    <div className="overlay" onClick={closeEditForm}>
+    <Overlay onClick={closeEditForm}>
       <div id="editForm" onClick={(e) => e.stopPropagation()}>
         <h2>Edit Study Record</h2>
         <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
@@ -97,7 +99,7 @@ const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, 
           </Button>
         </form>
       </div>
-    </div>
+    </Overlay>
   )
 }
 

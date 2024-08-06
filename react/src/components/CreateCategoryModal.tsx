@@ -6,6 +6,7 @@ import { ColorPicker, useColor } from 'react-color-palette';
 import "react-color-palette/css";
 
 import { postCategory } from "../api/request";
+import Overlay from './common/Overlay';
 
 type CreateCategoryModalProps = {
   isShowCreateModal: boolean;
@@ -34,7 +35,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
   }
 
   return (
-    <div className="overlay" onClick={closeCreateCategoryModal}>
+    <Overlay onClick={closeCreateCategoryModal}>
       <div id="createFrom" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
         <h2>Create Category</h2>
         <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
@@ -56,7 +57,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
           </Button>
         </form>
       </div>
-    </div >
+    </Overlay>
   );
 };
 

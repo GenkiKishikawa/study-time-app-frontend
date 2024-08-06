@@ -5,7 +5,6 @@ import { signUp } from "../api/auth";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
-import { styled } from "@mui/material";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -18,7 +17,7 @@ const SignUp: React.FC = () => {
   const handleSignUpSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await signUp({
+      await signUp({
         email,
         password,
         passwordConfirmation,
