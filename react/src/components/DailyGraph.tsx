@@ -17,8 +17,8 @@ const DailyGraph: React.FC = () => {
     const fetchDailyTime = async () => {
       try {
         for (let day = 1; day <= 31; day++) {
-          const response = await getDailyTime(new Date().getMonth() + 1, day);
-          newDailyData.push({ name: day.toString(), studyTime: (response.data / 3600).toFixed(1) });
+          const response = await getDailyTime(new Date().getFullYear(), new Date().getMonth() + 1, day);
+          newDailyData.push({ name: day.toString(), studyTime: (response.data / 60).toFixed(1) });
         }
         setDailyData(newDailyData);
       } catch (err) {

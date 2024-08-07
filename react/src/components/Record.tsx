@@ -8,7 +8,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { deleteRecord, getCategory } from '../api/request';
 import Memo from './Memo';
 import EditForm from './EditForm';
-import { RecordType } from './RecordsList';
+import { RecordType } from '../pages/main/Records';
 
 type RecordPropsType = {
   record: RecordType;
@@ -16,7 +16,7 @@ type RecordPropsType = {
   setRecords: (records: RecordType[]) => void;
 }
 
-const Record: React.FC<RecordPropsType> = (props) => {
+const Record: React.FC<RecordPropsType> = ({ record, records, setRecords }) => {
   const [isShowMemo, setIsShowMemo] = useState(false);
   const [isShowEditForm, setIsShowEditForm] = useState(false);
   const [category, setCategory] = useState('');
@@ -24,7 +24,7 @@ const Record: React.FC<RecordPropsType> = (props) => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await getCategory(props.record.categoryId);
+        const res = await getCategory(record.categoryId);
         setCategory(res.data.name);
       } catch (err) {
         console.error('Failed to fetch category:', err);
@@ -35,9 +35,9 @@ const Record: React.FC<RecordPropsType> = (props) => {
 
   const handleDeleteRecord = async () => {
     try {
-      await deleteRecord(props.record.id);
-      const updatedRecords = props.records.filter(r => r.id !== props.record.id);
-      props.setRecords(updatedRecords);
+      await deleteRecord(record.id);
+      const updatedRecords = records.filter(r => r.id !== record.id);
+      setRecords(updatedRecords);
     } catch (err) {
       console.error('Failed to delete record:', err);
     }
@@ -51,14 +51,9 @@ const Record: React.FC<RecordPropsType> = (props) => {
     setIsShowEditForm(true);
   }
 
-  const displayTimeFormat = (record: RecordType) => {
-    if (record.startDay === record.endDay) {
-      return `${record.startYear}年${record.startMonth}月${record.startDay}日 ${record.startTime} ~ ${record.endTime}`;
-    } else if (record.startMonth === record.endMonth) {
-      return `${record.startYear}年${record.startMonth}月${record.startDay}日 ${record.startTime} ~ ${record.endDay}日 ${record.endTime}`;
-    } else if (record.startYear === record.endYear) {
-      return `${record.startYear}年${record.startMonth}月${record.startDay}日 ${record.startTime} ~ ${record.endMonth}月${record.endDay}日 ${record.endTime}`;
-    }
+  const dateFormater = (date: string) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}`;
   }
 
   return (
@@ -80,12 +75,12 @@ const Record: React.FC<RecordPropsType> = (props) => {
       >
         <AccessTimeIcon style={{ marginRight: '10px' }} />
         <ListItemText
-          primary={`${(props.record.studyTime / 3600).toFixed(1)} Hours　${displayTimeFormat(props.record)}　${category}`}
+          primary={`${(record.studyMinutes / 60).toFixed(1)} Hours　${category}　${dateFormater(record.startDatetime)}`}
           style={{ paddingRight: 0 }}
         />
       </ListItem >
-      {isShowEditForm && <EditForm IsShowEditForm={isShowEditForm} setIsShowEditForm={setIsShowEditForm} record={props.record} />}
-      {isShowMemo && <Memo setIsShowMemo={setIsShowMemo} memo={props.record.memo} recordId={props.record.id} />}
+      {isShowEditForm && <EditForm IsShowEditForm={isShowEditForm} setIsShowEditForm={setIsShowEditForm} record={record} />}
+      {isShowMemo && <Memo setIsShowMemo={setIsShowMemo} memo={record.memo} recordId={record.id} />}
     </>
   );
 };

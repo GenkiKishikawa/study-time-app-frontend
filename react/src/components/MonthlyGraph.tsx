@@ -15,18 +15,16 @@ const MonthlyGraph: React.FC = () => {
   useEffect(() => {
     const fetchMonthlyTime = async () => {
       const newMonthlyData: MonthlyDataType[] = [];
-
       try {
         for (let month = 1; month <= 12; month++) {
-          const response = await getMonthlyTime(month);
-          newMonthlyData.push({ name: month.toString(), studyTime: (response.data / 3600).toFixed(1) });
+          const response = await getMonthlyTime(new Date().getFullYear(), month);
+          console.log(response);
+          newMonthlyData.push({ name: month.toString(), studyTime: (response.data / 60).toFixed(1) });
         }
         setMonthlyData(newMonthlyData);
-
       } catch (err) {
         console.error('Failed to get monthly time:', err);
       }
-
     };
     fetchMonthlyTime();
   }, []);

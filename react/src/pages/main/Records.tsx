@@ -9,16 +9,11 @@ import Record from '../../components/Record';
 export type RecordType = {
   id: number;
   userId: number;
-  studyTime: number;
-  startYear: number;
-  startMonth: number;
-  startDay: number;
-  startTime: string;
-  endYear: number;
-  endMonth: number;
-  endDay: number;
-  endTime: string;
+  studyMinutes: number;
+  startDatetime: string;
+  endDatetime: string;
   memo: string;
+  categoryId: number;
 }
 
 export type RecordsType = RecordType[];

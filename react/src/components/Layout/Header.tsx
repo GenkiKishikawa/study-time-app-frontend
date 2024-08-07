@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ headerHeight }) => {
   useEffect(() => {
     const fetchMonthlyTime = async () => {
       try {
-        const response = await getMonthlyTime(new Date().getMonth() + 1);
+        const response = await getMonthlyTime(new Date().getFullYear(), new Date().getMonth() + 1);
         setMonthlyTime(response.data);
       } catch (err) {
         console.error('Failed to get monthly time:', err);

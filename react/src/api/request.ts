@@ -41,8 +41,8 @@ export const putRecord = (recordId: number, params: any) => {
   });
 }
 
-export const getMonthlyTime = (month: any) => {
-  return api.get(`/monthly_time?month=${month}`, {
+export const getMonthlyTime = (year: any, month: any) => {
+  return api.get(`/monthly_times?year=${year}&month=${month}`, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),
@@ -51,8 +51,8 @@ export const getMonthlyTime = (month: any) => {
   });
 }
 
-export const getDailyTime = (month: any, day: any) => {
-  return api.get(`/daily_time?month=${month}&day=${day}`, {
+export const getDailyTime = (year: any, month: any, day: any) => {
+  return api.get(`/daily_times?year=${year}&month=${month}&day=${day}`, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),

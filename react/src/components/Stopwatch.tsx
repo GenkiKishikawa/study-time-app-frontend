@@ -27,31 +27,26 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
   } = useStopwatch();
   const navigate = useNavigate();
 
-  const [startTimeValue, setStartTimeValue] = useState("");
+  const [startDatetime, setStartDatetime] = useState("");
 
   const handleStart = () => {
-    if (!startTimeValue) {
-      setStartTimeValue(new Date().toLocaleString());
+    if (!startDatetime) {
+      setStartDatetime(new Date().toLocaleString());
     }
     start();
   }
 
   const handleReset = () => {
     reset();
-    setStartTimeValue("");
+    setStartDatetime("");
   }
 
   const handleSave = async () => {
+    console.log("totalSeconds", totalSeconds);
     const params = {
-      studyTime: totalSeconds,
-      startYear: new Date(startTimeValue).getFullYear(),
-      startMonth: new Date(startTimeValue).getMonth() + 1,
-      startDay: new Date(startTimeValue).getDate(),
-      startTime: new Date(startTimeValue).toLocaleTimeString(),
-      endYear: new Date().getFullYear(),
-      endMonth: new Date().getMonth() + 1,
-      endDay: new Date().getDate(),
-      endTime: new Date().toLocaleTimeString(),
+      studyMinutes: totalSeconds / 60,
+      startDatetime: startDatetime,
+      endDatetime: new Date().toLocaleString(),
       memo: mdValue,
       categoryId: categoryId,
     };
@@ -65,7 +60,7 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
       <div style={{ fontSize: '70px' }}>
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
       </div>
-      <p>開始時間: {startTimeValue}</p>
+      <p>開始時間: {startDatetime}</p>
       <IconButton onClick={handleStart} >
         <PlayArrowIcon />
       </IconButton>
