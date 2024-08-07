@@ -1,12 +1,57 @@
-import React, { useState } from 'react';
-
-import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, FormControl, NativeSelect } from '@mui/material';
 
 import MonthlyGraph from './MonthlyGraph';
 import DailyGraph from './DailyGraph';
+import { getMonthlyTime } from '../api/request';
+import { getDailyTime } from '../api/request';
 
-const Graph: React.FC = (props) => {
+type DailyDataType = {
+  name: string;
+  studyTime: string;
+};
+
+type MonthlyDataType = {
+  name: string;
+  studyTime: string;
+};
+
+const Graph: React.FC = () => {
   const [graph, setGraph] = useState("daily");
+  const [dailyData, setDailyData] = useState<DailyDataType[]>([]);
+  const [monthlyData, setMonthlyData] = useState<MonthlyDataType[]>([]);
+
+  useEffect(() => {
+    const fetchMonthlyTime = async () => {
+      const newMonthlyData: MonthlyDataType[] = [];
+      try {
+        for (let month = 1; month <= 12; month++) {
+          const response = await getMonthlyTime(new Date().getFullYear(), month);
+          newMonthlyData.push({ name: month.toString(), studyTime: (response.data / 60).toFixed(1) });
+        }
+        setMonthlyData(newMonthlyData);
+      } catch (err) {
+        console.error('Failed to get monthly time:', err);
+      }
+    };
+    fetchMonthlyTime();
+  }, []);
+
+  useEffect(() => {
+    const newDailyData: DailyDataType[] = [];
+    const fetchDailyTime = async () => {
+      try {
+        for (let day = 1; day <= 31; day++) {
+          const response = await getDailyTime(new Date().getFullYear(), new Date().getMonth() + 1, day);
+          newDailyData.push({ name: day.toString(), studyTime: (response.data / 60).toFixed(1) });
+        }
+        setDailyData(newDailyData);
+      } catch (err) {
+        console.error('Failed to get daily time:', err);
+      }
+    };
+    fetchDailyTime();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setGraph(event.target.value as string);
@@ -40,8 +85,8 @@ const Graph: React.FC = (props) => {
           </NativeSelect>
         </FormControl>
       </Box>
-      {graph === "monthly" && < MonthlyGraph />}
-      {graph === "daily" && <DailyGraph />}
+      {graph === "monthly" && <MonthlyGraph monthlyData={monthlyData} />}
+      {graph === "daily" && <DailyGraph dailyData={dailyData} />}
     </Box>
   )
 }

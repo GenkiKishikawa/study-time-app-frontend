@@ -1,33 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Rectangle } from 'recharts';
 
-import { getMonthlyTime } from '../api/request';
-
-type MonthlyDataType = {
+interface MonthlyData {
   name: string;
   studyTime: string;
-};
+}
 
-const MonthlyGraph: React.FC = () => {
-  const [monthlyData, setMonthlyData] = useState<MonthlyDataType[]>([]);
-
-  useEffect(() => {
-    const fetchMonthlyTime = async () => {
-      const newMonthlyData: MonthlyDataType[] = [];
-      try {
-        for (let month = 1; month <= 12; month++) {
-          const response = await getMonthlyTime(new Date().getFullYear(), month);
-          console.log(response);
-          newMonthlyData.push({ name: month.toString(), studyTime: (response.data / 60).toFixed(1) });
-        }
-        setMonthlyData(newMonthlyData);
-      } catch (err) {
-        console.error('Failed to get monthly time:', err);
-      }
-    };
-    fetchMonthlyTime();
-  }, []);
+const MonthlyGraph: React.FC<{ monthlyData: MonthlyData[] }> = ({ monthlyData }) => {
+  const maxStudyTime: number = Math.floor(Math.max(...monthlyData.map(data => Number(data.studyTime))) * 1.2);
 
   return (
     <Box sx={{
@@ -45,7 +26,7 @@ const MonthlyGraph: React.FC = () => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, maxStudyTime]} />
           <Tooltip />
           <Bar dataKey="studyTime" fill="#434343" activeBar={<Rectangle fill="#f5f5f5" stroke="#434343" />} />
         </BarChart>
