@@ -1,32 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Rectangle } from 'recharts';
 
-import { getDailyTime } from '../api/request';
-
-type DailyDataType = {
+interface DailyData {
   name: string;
-  studyTime: string; // studyTimeを文字列型として扱う（toFixed(1)が返すのは文字列）
-};
+  studyTime: string;
+}
 
-const DailyGraph: React.FC = () => {
-  const [dailyData, setDailyData] = useState<DailyDataType[]>([]);
-
-  useEffect(() => {
-    const newDailyData: DailyDataType[] = [];
-    const fetchDailyTime = async () => {
-      try {
-        for (let day = 1; day <= 31; day++) {
-          const response = await getDailyTime(new Date().getMonth() + 1, day);
-          newDailyData.push({ name: day.toString(), studyTime: (response.data / 3600).toFixed(1) });
-        }
-        setDailyData(newDailyData);
-      } catch (err) {
-        console.error('Failed to get daily time:', err);
-      }
-    };
-    fetchDailyTime();
-  }, []);
+const DailyGraph: React.FC<{ dailyData: DailyData[] }> = ({ dailyData }) => {
+  const maxStudyTime: number = Math.floor(Math.max(...dailyData.map(data => Number(data.studyTime))) * 1.2);
 
   return (
     <Box sx={{
@@ -44,7 +26,7 @@ const DailyGraph: React.FC = () => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, maxStudyTime]} />
           <Tooltip />
           <Bar dataKey="studyTime" fill="#434343" activeBar={<Rectangle fill="#f5f5f5" stroke="#434343" />} />
         </BarChart>

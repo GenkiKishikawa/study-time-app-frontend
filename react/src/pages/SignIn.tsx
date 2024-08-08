@@ -1,20 +1,13 @@
 import React, { useContext, useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../api/auth";
+import Axios from "axios";
 import { AuthContext } from "../App";
 import Cookies from "js-cookie";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
-import { styled } from "@mui/material";
 
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
+import { signIn } from "../api/auth";
 
 const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
@@ -38,12 +31,12 @@ const SignIn: React.FC = () => {
 
         navigate("/");
       }
-    } catch (err: any) {
-      if (err.response.data.success === false) {
+    } catch (err) {
+      if (Axios.isAxiosError(err) && err.response?.data.success === false) {
         setErrorMessage(err.response.data.errors[0]);
       }
       console.log(err);
-    };
+    }
   };
 
   return (
@@ -67,9 +60,9 @@ const SignIn: React.FC = () => {
           fullWidth
           sx={{ margin: '5px' }}
         />
-        <SendButton type="submit" variant="contained" endIcon={<SendIcon />}>
+        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
           続ける
-        </SendButton>
+        </Button>
         <Link to="/signup">アカウントの作成</Link>
       </form>
     </div>

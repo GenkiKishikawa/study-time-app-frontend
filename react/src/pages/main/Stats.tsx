@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { Box } from '@mui/material';
 
-import Graph from './Graph';
+import Graph from '../../components/Graph';
 
-const Stats: React.FC = (props) => {
+const Stats: React.FC = () => {
 
   return (
     <Box>

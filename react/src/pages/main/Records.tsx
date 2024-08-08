@@ -3,27 +3,25 @@ import { List, Pagination, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
-import { getRecords } from '../api/request';
-import Record from './Record';
+import {
+  getRecords,
+  type GetRecordsQuery
+} from '../../api/request';
+import Record from '../../components/Record';
 
 export type RecordType = {
   id: number;
   userId: number;
-  studyTime: number;
-  startYear: number;
-  startMonth: number;
-  startDay: number;
-  startTime: string;
-  endYear: number;
-  endMonth: number;
-  endDay: number;
-  endTime: string;
+  studyMinutes: number;
+  startDatetime: string;
+  endDatetime: string;
   memo: string;
+  categoryId: number;
 }
 
 export type RecordsType = RecordType[];
 
-const RecordsList: React.FC = () => {
+const Records: React.FC = () => {
   const [records, setRecords] = useState<RecordsType>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -32,13 +30,18 @@ const RecordsList: React.FC = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const res = await getRecords(page, isDesc ? 'desc' : 'asc');
+        const query: GetRecordsQuery = {
+          page: page,
+          order: isDesc ? "desc" : "asc",
+        };
+
+        const res = await getRecords(query);
         setRecords(res.data.records);
         setPage(res.data.pagination.pagination.current);
         setTotalPages(res.data.pagination.pagination.pages);
       } catch (err) {
         console.error('Failed to fetch records:', err)
-      };
+      }
     }
 
     fetchRecords();
@@ -60,13 +63,7 @@ const RecordsList: React.FC = () => {
         marginRight: 65,
         marginTop: 3,
       }}>
-        <IconButton onClick={() => { setIsDesc(!isDesc) }} sx={
-          {
-            '&:hover': {
-
-            }
-          }
-        } >
+        <IconButton onClick={() => { setIsDesc(!isDesc) }}>
           <SwapVertIcon />
         </IconButton>
       </Box>
@@ -96,4 +93,4 @@ const RecordsList: React.FC = () => {
   );
 };
 
-export default RecordsList;
+export default Records;

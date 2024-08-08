@@ -7,14 +7,18 @@ import ReactFlow,
   Background,
   useNodesState,
   useEdgesState,
-  addEdge
+  addEdge,
+  Position,
+  type Node,
+  type Edge,
+  type OnConnect,
 } from "reactflow";
 import "reactflow/dist/style.css";
 
-const initialNodes = [
+const initialNodes: Node[] = [
   {
     id: "horizontal-1",
-    sourcePosition: "right",
+    sourcePosition: Position.Right,
     type: "input",
     data: { label: "React" },
     style: { background: "#00ffff" },
@@ -22,42 +26,42 @@ const initialNodes = [
   },
   {
     id: "horizontal-2",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "TypeScript" },
     position: { x: 250, y: 0 },
   },
   {
     id: "horizontal-3",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "Hooks" },
     position: { x: 250, y: 160 },
   },
   {
     id: "horizontal-4",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "devise" },
     position: { x: 500, y: 0 },
   },
   {
     id: "horizontal-5",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "useState" },
     position: { x: 500, y: 195 },
   },
   {
     id: "horizontal-6",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "useEffect" },
     position: { x: 500, y: 125 },
   },
   {
     id: "horizontal-7",
-    sourcePosition: "right",
+    sourcePosition: Position.Right,
     type: "input",
     data: { label: "英語" },
     style: { background: "#ff7f50" },
@@ -65,21 +69,21 @@ const initialNodes = [
   },
   {
     id: "horizontal-8",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "単語" },
     position: { x: 250, y: 300 },
   },
   {
     id: "horizontal-9",
-    sourcePosition: "right",
-    targetPosition: "left",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: "文法" },
     position: { x: 250, y: 370 },
   },
 ];
 
-const initialEdges = [
+const initialEdges: Edge[] = [
   {
     id: "horizontal-e1-2",
     source: "horizontal-1",
@@ -132,9 +136,9 @@ const initialEdges = [
 ];
 
 const Board: React.FC = () => {
-  const [nodes, _, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), []);
+  const [nodes, , onNodesChange] = useNodesState<Node[]>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(initialEdges);
+  const onConnect: OnConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [setEdges]);
 
   return (
     <Box sx={{

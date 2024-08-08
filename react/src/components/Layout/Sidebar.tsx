@@ -6,23 +6,26 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 
+import { useNavigate } from 'react-router-dom';
+
 interface SidebarProps {
-  onComponentSwitch: (componentName: string) => void;
   sidebarWidth: number;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) => {
-  const [selectedComponent, setSelectedComponent] = useState<string>('recordsList');
+const Sidebar: React.FC<SidebarProps> = ({ sidebarWidth }) => {
+  const navigate = useNavigate();
+  const [pathName, setPathName] = useState<string>('/');
 
-  const handleComponentSwitch = (event: React.SyntheticEvent, componentName: string) => {
-    setSelectedComponent(componentName);
-    onComponentSwitch(componentName);
+  const handleComponentSwitch = (_: React.SyntheticEvent, pathName: string) => {
+    setPathName(pathName);
+    navigate(`${pathName}`);
   };
 
   return (
     <Drawer
       variant="permanent"
       sx={{
+        position: 'relative',
         width: sidebarWidth,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
@@ -39,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
         <Tabs
           orientation="vertical"
           variant="scrollable"
-          value={selectedComponent}
+          value={pathName}
           onChange={handleComponentSwitch}
           sx={{
             borderColor: 'divider',
@@ -52,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
           }}
           TabIndicatorProps={{ style: { backgroundColor: '#a9a9a9' } }}
         >
-          <Tab value="recordsList" label="Time Records" icon={<DvrIcon />} iconPosition="top"
+          <Tab value="/" label="Time Records" icon={<DvrIcon />} iconPosition="top"
             sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
           <Tab value="timer" label="Timer" icon={<WatchIcon />} iconPosition="top"
             sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
@@ -64,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onComponentSwitch, sidebarWidth }) =>
             sx={{ my: 1, '&.Mui-selected': { color: '#434343' }, textTransform: "none" }} />
         </Tabs>
       </Box>
-    </Drawer>
+    </Drawer >
   );
 };
 

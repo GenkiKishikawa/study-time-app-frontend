@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-import Board from './Board';
+import Board from '../../components/Board';
 
 const Todo: React.FC = () => {
   return (

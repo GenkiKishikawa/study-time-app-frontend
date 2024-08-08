@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 
-import { TextField, Button, styled } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import { ColorPicker, useColor } from 'react-color-palette';
 import "react-color-palette/css";
 
-import { postCategory } from "../api/request";
-
-const SendButton = styled(Button)({
-  color: '#d9d9d9',
-  backgroundColor: '#434343',
-  '&:hover': {
-    backgroundColor: '#333333',
-  }
-});
+import {
+  postCategory,
+  PostCategoryParams,
+} from "../api/request";
+import Overlay from './common/Overlay';
 
 type CreateCategoryModalProps = {
   isShowCreateModal: boolean;
@@ -34,15 +30,19 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
 
   const handleCreateCategory = async () => {
     try {
-      await postCategory({ name: categoryName, color: color.hex });
-    } catch (err) {
+      const params: PostCategoryParams = {
+        name: categoryName,
+        color: color.hex,
+      };
+      await postCategory(params);
+    } catch (err: unknown) {
       console.error('Failed to create category:', err);
     }
     props.setIsShowCreateModal(false);
   }
 
   return (
-    <div className="overlay" onClick={closeCreateCategoryModal}>
+    <Overlay onClick={closeCreateCategoryModal}>
       <div id="createFrom" onClick={(e) => e.stopPropagation()} style={{ margin: 20 }}>
         <h2>Create Category</h2>
         <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
@@ -55,16 +55,16 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
             onChange={(e) => setCategoryName(e.target.value)}
           />
           <ColorPicker color={color} onChange={setColor} />
-          <SendButton
+          <Button
             type="submit"
             variant="contained"
             endIcon={<SendIcon />}
             onClick={handleCreateCategory}           >
             続ける
-          </SendButton>
+          </Button>
         </form>
       </div>
-    </div >
+    </Overlay>
   );
 };
 

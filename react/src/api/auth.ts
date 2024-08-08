@@ -1,11 +1,24 @@
 import api from './api';
 import Cookies from 'js-cookie';
 
-export const signUp = (params: any) => {
+type SignUpParams = {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  confirmSuccessUrl: string;
+};
+
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
+export const signUp = (params: SignUpParams) => {
   return api.post('/auth', params);
 };
 
-export const signIn = (params: any) => {
+export const signIn = (params: SignInParams) => {
+  console.log(params);
   return api.post('/auth/sign_in', params);
 };
 

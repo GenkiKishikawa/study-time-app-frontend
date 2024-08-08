@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Box, List, IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import CreateCategoryModal from './CreateCategoryModal';
-import Category from './Category';
-import { getCategories } from '../api/request';
+import CreateCategoryModal from '../../components/CreateCategoryModal';
+import Category from '../../components/Category';
+import { getCategories } from '../../api/request';
 
-const CategoriesList: React.FC = () => {
-  const [categories, setCategories] = useState([]);
+interface CategoryType {
+  id: number;
+  name: string;
+  userId: number;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const Categories: React.FC = () => {
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [isShowCreateModal, setIsShowCreateModal] = useState(false);
 
   useEffect(() => {
@@ -49,7 +58,7 @@ const CategoriesList: React.FC = () => {
           paddingRight: 4,
         }}>
         {
-          categories.map((category: any) => (
+          categories.map((category: CategoryType) => (
             <Category key={category.id} category={category} />
           ))
         }
@@ -60,4 +69,4 @@ const CategoriesList: React.FC = () => {
   );
 }
 
-export default CategoriesList;
+export default Categories;
