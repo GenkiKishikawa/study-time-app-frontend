@@ -3,7 +3,10 @@ import { List, Pagination, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
-import { getRecords } from '../../api/request';
+import {
+  getRecords,
+  type GetRecordsQuery
+} from '../../api/request';
 import Record from '../../components/Record';
 
 export type RecordType = {
@@ -27,13 +30,18 @@ const Records: React.FC = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const res = await getRecords(page, isDesc ? 'desc' : 'asc');
+        const query: GetRecordsQuery = {
+          page: page,
+          order: isDesc ? "desc" : "asc",
+        };
+
+        const res = await getRecords(query);
         setRecords(res.data.records);
         setPage(res.data.pagination.pagination.current);
         setTotalPages(res.data.pagination.pagination.pages);
       } catch (err) {
         console.error('Failed to fetch records:', err)
-      };
+      }
     }
 
     fetchRecords();

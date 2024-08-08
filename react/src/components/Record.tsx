@@ -26,12 +26,12 @@ const Record: React.FC<RecordPropsType> = ({ record, records, setRecords }) => {
       try {
         const res = await getCategory(record.categoryId);
         setCategory(res.data.name);
-      } catch (err) {
+      } catch (err: unknown) {
         console.error('Failed to fetch category:', err);
       }
     }
     fetchCategory();
-  }, []);
+  }, [record.categoryId]);
 
   const handleDeleteRecord = async () => {
     try {
@@ -75,7 +75,7 @@ const Record: React.FC<RecordPropsType> = ({ record, records, setRecords }) => {
       >
         <AccessTimeIcon style={{ marginRight: '10px' }} />
         <ListItemText
-          primary={`${(record.studyMinutes / 60).toFixed(1)} Hours　${category}　${dateFormater(record.startDatetime)}`}
+          primary={`${(record.studyMinutes / 60).toFixed(1)} Hours ${category} ${dateFormater(record.startDatetime)}`}
           style={{ paddingRight: 0 }}
         />
       </ListItem >

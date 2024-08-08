@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 
-import { putRecord } from "../api/request";
+import {
+  putRecord,
+  type PutRecordParams,
+} from "../api/request";
 import Overlay from "./common/Overlay";
 import { RecordType } from "../pages/main/Records";
 import { dateFormater, minutesFormatter, hourToMinutes } from "../utils/formater";
@@ -22,13 +25,13 @@ const EditForm: React.FC<EditFormProps> = ({ IsShowEditForm, setIsShowEditForm, 
   }
 
   const handleUpdateRecord = async () => {
-    const param = {
+    const params: PutRecordParams = {
       studyMinutes: thisRecord.studyMinutes,
-      startDatetime: `${thisRecord.startDatetime}`,
-      endDatetime: `${thisRecord.endDatetime}`,
+      startDatetime: new Date(thisRecord.startDatetime),
+      endDatetime: new Date(thisRecord.endDatetime),
     }
     try {
-      await putRecord(thisRecord.id, param)
+      await putRecord(thisRecord.id, params);
     } catch (err) {
       console.error('Failed to update record:', err);
     }

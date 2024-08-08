@@ -3,8 +3,12 @@ import { Box, FormControl, NativeSelect } from '@mui/material';
 
 import MonthlyGraph from './MonthlyGraph';
 import DailyGraph from './DailyGraph';
-import { getMonthlyTime } from '../api/request';
-import { getDailyTime } from '../api/request';
+import {
+  getMonthlyTime,
+  getDailyTime,
+  type GetMonthlyTimeQuery,
+  type GetDailyTimeQuery,
+} from '../api/request';
 
 type DailyDataType = {
   name: string;
@@ -26,7 +30,11 @@ const Graph: React.FC = () => {
       const newMonthlyData: MonthlyDataType[] = [];
       try {
         for (let month = 1; month <= 12; month++) {
-          const response = await getMonthlyTime(new Date().getFullYear(), month);
+          const query: GetMonthlyTimeQuery = {
+            year: new Date().getFullYear(),
+            month: month,
+          };
+          const response = await getMonthlyTime(query);
           newMonthlyData.push({ name: month.toString(), studyTime: (response.data / 60).toFixed(1) });
         }
         setMonthlyData(newMonthlyData);
@@ -42,7 +50,12 @@ const Graph: React.FC = () => {
     const fetchDailyTime = async () => {
       try {
         for (let day = 1; day <= 31; day++) {
-          const response = await getDailyTime(new Date().getFullYear(), new Date().getMonth() + 1, day);
+          const query: GetDailyTimeQuery = {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+            day: day,
+          };
+          const response = await getDailyTime(query);
           newDailyData.push({ name: day.toString(), studyTime: (response.data / 60).toFixed(1) });
         }
         setDailyData(newDailyData);

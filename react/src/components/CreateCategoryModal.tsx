@@ -5,7 +5,10 @@ import SendIcon from '@mui/icons-material/Send';
 import { ColorPicker, useColor } from 'react-color-palette';
 import "react-color-palette/css";
 
-import { postCategory } from "../api/request";
+import {
+  postCategory,
+  PostCategoryParams,
+} from "../api/request";
 import Overlay from './common/Overlay';
 
 type CreateCategoryModalProps = {
@@ -27,8 +30,12 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = (props) => {
 
   const handleCreateCategory = async () => {
     try {
-      await postCategory({ name: categoryName, color: color.hex });
-    } catch (err) {
+      const params: PostCategoryParams = {
+        name: categoryName,
+        color: color.hex,
+      };
+      await postCategory(params);
+    } catch (err: unknown) {
       console.error('Failed to create category:', err);
     }
     props.setIsShowCreateModal(false);

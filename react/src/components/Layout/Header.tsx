@@ -11,16 +11,22 @@ interface HeaderProps {
   headerHeight: number;
 }
 
+interface User {
+  id: number;
+  name: string | null;
+  email: string;
+}
+
 const Header: React.FC<HeaderProps> = ({ headerHeight }) => {
   const [open, setOpen] = useState(false);
   const [monthlyTime, setMonthlyTime] = useState(0);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const [isOpenAccountModal, setIsOpenAccountModal] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-  const [user, setUser] = useState<any>({});
+  const [, setUser] = useState<User>();
   const navigate = useNavigate();
 
-  const handleToggle = (_: MouseEvent<HTMLElement>) => {
+  const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -50,7 +56,11 @@ const Header: React.FC<HeaderProps> = ({ headerHeight }) => {
   useEffect(() => {
     const fetchMonthlyTime = async () => {
       try {
-        const response = await getMonthlyTime(new Date().getFullYear(), new Date().getMonth() + 1);
+        const query = {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1
+        };
+        const response = await getMonthlyTime(query);
         setMonthlyTime(response.data);
       } catch (err) {
         console.error('Failed to get monthly time:', err);

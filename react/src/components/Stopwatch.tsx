@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
-import { IconButton } from "@mui/material";
+import { IconButton, Box } from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SendIcon from '@mui/icons-material/Send';
 
-import { postRecord } from "../api/request";
-import { useNavigate } from "react-router-dom";
+import {
+  postRecord,
+  type PostRecordParams
+} from "../api/request";
 
 type StopwatchProps = {
   mdValue: string;
@@ -26,28 +29,28 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
     reset,
   } = useStopwatch();
   const navigate = useNavigate();
-
-  const [startDatetime, setStartDatetime] = useState("");
+  const [startDatetime, setStartDatetime] = useState<Date | null>(null);
 
   const handleStart = () => {
     if (!startDatetime) {
-      setStartDatetime(new Date().toLocaleString());
+      setStartDatetime(new Date());
     }
     start();
   }
 
   const handleReset = () => {
-    reset();
-    setStartDatetime("");
+    reset(undefined, false);
+    setStartDatetime(null);
   }
 
   const handleSave = async () => {
-    console.log("totalSeconds", totalSeconds);
-    const params = {
+    if (startDatetime === null) return;
+
+    const params: PostRecordParams = {
       studyMinutes: totalSeconds / 60,
       startDatetime: startDatetime,
-      endDatetime: new Date().toLocaleString(),
-      memo: mdValue,
+      endDatetime: new Date(),
+      mdValue: mdValue,
       categoryId: categoryId,
     };
 
@@ -56,11 +59,11 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
   }
 
   return (
-    <div style={{ alignItems: "center", textAlign: "center" }}>
-      <div style={{ fontSize: '70px' }}>
+    <Box style={{ alignItems: "center", textAlign: "center" }}>
+      <Box style={{ fontSize: '70px' }}>
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-      <p>開始時間: {startDatetime}</p>
+      </Box>
+      <p>開始時間: {startDatetime?.toLocaleString()}</p>
       <IconButton onClick={handleStart} >
         <PlayArrowIcon />
       </IconButton>
@@ -70,10 +73,10 @@ const Stopwatch: React.FC<StopwatchProps> = ({ mdValue, categoryId }) => {
       <IconButton onClick={handleReset} >
         <RestartAltIcon />
       </IconButton>
-      <IconButton onClick={handleSave} >
+      <IconButton onClick={handleSave} disabled={startDatetime ? false : true} >
         <SendIcon />
       </IconButton>
-    </div>
+    </Box>
   )
 }
 

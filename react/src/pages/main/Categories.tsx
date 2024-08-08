@@ -6,8 +6,17 @@ import CreateCategoryModal from '../../components/CreateCategoryModal';
 import Category from '../../components/Category';
 import { getCategories } from '../../api/request';
 
+interface CategoryType {
+  id: number;
+  name: string;
+  userId: number;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const Categories: React.FC = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [isShowCreateModal, setIsShowCreateModal] = useState(false);
 
   useEffect(() => {
@@ -49,7 +58,7 @@ const Categories: React.FC = () => {
           paddingRight: 4,
         }}>
         {
-          categories.map((category: any) => (
+          categories.map((category: CategoryType) => (
             <Category key={category.id} category={category} />
           ))
         }

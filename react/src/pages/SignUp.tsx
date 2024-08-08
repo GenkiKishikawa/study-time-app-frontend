@@ -1,10 +1,11 @@
 import React, { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { signUp } from "../api/auth";
+import Axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
+
+import { signUp } from "../api/auth";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -24,12 +25,12 @@ const SignUp: React.FC = () => {
         confirmSuccessUrl,
       });
       navigate("/signin");
-    } catch (err: any) {
-      if (err.response.data.status === "error") {
+    } catch (err) {
+      if (Axios.isAxiosError(err) && err.response?.data.status === "error") {
         setErrorMessage(err.response.data.errors.fullMessages);
       }
       console.log(err);
-    };
+    }
   };
 
   return (

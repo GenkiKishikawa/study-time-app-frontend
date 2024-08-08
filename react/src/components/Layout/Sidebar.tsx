@@ -13,7 +13,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ sidebarWidth }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [pathName, setPathName] = useState<string>('/');
 
   const handleComponentSwitch = (_: React.SyntheticEvent, pathName: string) => {

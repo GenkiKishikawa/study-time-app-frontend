@@ -23,7 +23,7 @@ const Memo: React.FC<MemoProps> = ({ memo: initialMemo, recordId, setIsShowMemo 
     try {
       await putRecord(recordId, { memo });
       closeMemo();
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Failed to update memo:', err);
     }
   }, [recordId, memo, closeMemo]);
