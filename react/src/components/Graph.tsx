@@ -49,7 +49,12 @@ const Graph: React.FC = () => {
     const newDailyData: DailyDataType[] = [];
     const fetchDailyTime = async () => {
       try {
-        for (let day = 1; day <= 31; day++) {
+        const getLastDayOfMonth = () => {
+          new Date().getFullYear();
+          new Date().getMonth() + 1;
+          return new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()
+        }
+        for (let day = 1; day <= getLastDayOfMonth(); day++) {
           const query: GetDailyTimeQuery = {
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
