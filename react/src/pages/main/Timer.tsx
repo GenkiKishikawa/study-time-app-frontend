@@ -15,7 +15,7 @@ type Category = {
 const Timer: React.FC = () => {
   const [mdValue, setMdValue] = useState("**Hello world!!!**");
   const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState(1);
+  const [category, setCategory] = useState<number>(1);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -44,7 +44,7 @@ const Timer: React.FC = () => {
             id="demo-simple-select"
             value={category}
             label="Category"
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value as number)}
           >
             {categories.map((category: Category) => (
               <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
